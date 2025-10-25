@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     
     Rigidbody rb;
-
+    private float dashTimer = 0f;
+    private float dashSpeed = 1f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,7 +44,17 @@ public class PlayerMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
         Vector3 inputDir = new Vector3(horizontalInput, 0f, verticalInput).normalized;
         Vector3 moveDir = inputDir;//transform.TransformDirection(inputDir);
-        Vector3 movementVelocity = moveDir * moveSpeed;
+        if (Input.GetButtonDown("Jump") && dashTimer<=-0.5)
+        {
+            dashSpeed = 5f;
+            dashTimer = 0.1f;
+        }
+        if(dashTimer <= 0)
+        {
+            dashSpeed = 1f;
+        }
+        dashTimer -= Time.deltaTime;
+        Vector3 movementVelocity = moveDir * moveSpeed*dashSpeed;
         rb.linearVelocity = movementVelocity;
     }
 }
