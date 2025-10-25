@@ -10,9 +10,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float TimeBetweenShots;
     [SerializeField] private GameObject Projectiles;
 
-    //Variables to Set up targets
-    [SerializeField] private Transform Player;
+    //Variables to Set up targets  
     [SerializeField] Transform[] PatrolPoint;
+    private Transform Player;
 
     private float WaitTime;
     private float DistanceFromPlayer;
@@ -25,6 +25,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         Debug.Log(PatrolPoint);
     }
 
@@ -48,6 +49,7 @@ public class EnemyAI : MonoBehaviour
 
     private void chase()
     {
+        Debug.Log("Is chasing");
         if (Vector3.Distance(transform.position, Player.position) > SafetyDistance)
         {
             //Chase the player and stop to choose at the safety distance
@@ -63,6 +65,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time > NextShotTime)
         {
+            Debug.Log("Is Shooting");
             Instantiate(Projectiles, transform.position, Quaternion.identity);
             NextShotTime = Time.time + TimeBetweenShots;
         }
@@ -70,6 +73,7 @@ public class EnemyAI : MonoBehaviour
 
     private void patrol()
     {
+        Debug.Log("Is patrolling");
         // Distance to current patrol point
         float distanceToPoint = Vector3.Distance(transform.position, PatrolPoint[CurrentPointIndex].position);
 

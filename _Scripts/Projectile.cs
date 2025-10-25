@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
 
     //Tag for the projectile to search
     [SerializeField] private string Tag;
+    private string TagString;
     private void Start()
     {
         Target = GameObject.FindGameObjectWithTag(Tag);
@@ -29,7 +30,7 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == tag)
         {
             Destroy(gameObject);
         }
