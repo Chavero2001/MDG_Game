@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 5126280209424639634}
   m_Layer: 0
   m_Name: temp_building
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
