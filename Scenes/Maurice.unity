@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &96336205
 Light:
   m_ObjectHideFlags: 0
@@ -431,7 +431,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 8a7e7d7f112a4a445be296e0284eb976, type: 2}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: MapWidth
-      value: 500
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: SideWalk
@@ -439,7 +439,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: c3addf118bd494b41b84848682a84a8f, type: 2}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: MapHeight
-      value: 500
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: treePrefab
@@ -448,7 +448,7 @@ PrefabInstance:
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: wallObject
       value: 
-      objectReference: {fileID: 3502384465807288765, guid: 41510b408f0da2647ad84ec6b727afdd, type: 3}
+      objectReference: {fileID: 8770396474226274836, guid: b6712b67003f6b84ea627b97ee42527b, type: 3}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: AlleyChance
       value: 1
@@ -495,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 231115611}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: BuildingAttempts
-      value: 10000
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: GridJitterChance
@@ -958,7 +958,7 @@ Transform:
   m_GameObject: {fileID: 7785681449524454390}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 150, y: 0, z: 150}
+  m_LocalPosition: {x: 75, y: 0, z: 75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1025,7 +1025,7 @@ Transform:
   m_GameObject: {fileID: 358242593149582215}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.48, z: 0}
+  m_LocalPosition: {x: 0, y: 24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
