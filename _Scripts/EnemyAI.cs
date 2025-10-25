@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float SafetyDistance;
     public float TimeBetweenShots; //will pass to towards the player
     [SerializeField] private GameObject Projectiles;
-    [SerializeField] private float RotationSpeed = 5f; 
+    [SerializeField] private float RotationSpeed = 30f; 
 
     // Targets
     private Transform Player;
@@ -65,6 +65,14 @@ public class EnemyAI : MonoBehaviour
         else
         {
             shoot();
+            Vector3 moveDir = (Player.position - transform.position).normalized;
+
+            // Rotate toward player
+            if (moveDir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+            }
         }
     }
 
