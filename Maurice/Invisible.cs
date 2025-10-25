@@ -3,25 +3,26 @@ using UnityEngine;
 public class Invisible : MonoBehaviour
 {
     public MeshRenderer meshRenderer;
-    public int radius=5;
+    public float radius = 5f;
+
     void Start()
     {
-        GameObject cam = GameObject.FindGameObjectWithTag("Player");
-        if (cam != null)
-        {
-            Vector3 camPos = cam.transform.position;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null || meshRenderer == null) return;
 
-            // Check if x and z are within -5 to +5
-            if (Mathf.Abs(camPos.x) <= radius && Mathf.Abs(camPos.z) <= radius)
-            {
-                // Get the Renderer component
-                if (meshRenderer != null)
-                {
-                    Color color = meshRenderer.material.color;
-                    color.a = 0.5f;
-                    meshRenderer.material.color = color;
-                }
-            }
+        // Distance check (x/z only, ignoring height)
+        Vector3 playerPos = player.transform.position;
+        Vector3 objPos = transform.position;
+
+        float dx = playerPos.x - objPos.x;
+        float dz = playerPos.z - objPos.z;
+
+        if (Mathf.Abs(dx) <= radius && Mathf.Abs(dz) <= radius)
+        {
+            // Make 50% transparent
+            Color c = meshRenderer.material.color;
+            c.a = 0.5f;
+            meshRenderer.material.color = c;
         }
     }
 }
