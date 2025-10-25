@@ -33,7 +33,7 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        Debug.Log(PatrolPoint);
+        //Debug.Log(PatrolPoint);
         direction[0] = 0;//Up
         direction[1] = 1;//Right
         direction[2] = 2;//Down
@@ -56,6 +56,7 @@ public class EnemyAI : MonoBehaviour
         {   //if the player goes far away, return to wandering
             //patrol(); //patrol replaced by wandering
             wandering(direction[CurrentPointIndex]);
+            Debug.Log(direction);
         }
     }
 
