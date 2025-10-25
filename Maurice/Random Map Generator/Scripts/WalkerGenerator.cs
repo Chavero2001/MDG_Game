@@ -4,372 +4,376 @@ using UnityEngine.Tilemaps;
 
 public class WalkerGenerator : MonoBehaviour
 {
-    public enum Cell : byte { Empty = 0, Floor = 1, Wall = 2 }
-    public enum Mode { Caves, Dungeon }
+    public enum Cell : byte { Empty = 0, Grass = 1, Wall = 2, SideWalk = 3, Street = 4 }
+    public enum Mode { City = 0 } // single oneshot mode
 
     [Header("Mode")]
-    public Mode GenerationMode = Mode.Caves;
+    public Mode GenerationMode = Mode.City;
     public int Seed = 12345;
 
     [Header("Maps")]
     public Tilemap floorTileMap;
     public Tilemap wallTileMap;
-    public Tile Floor;
+    public Tile Street;
+    public Tile SideWalk;
+    public Tile Grass;
     public Tile Wall;
-    public GameObject wallObject;
     public Transform parentTransform;
+
+    [Header("Decorations")]
+    public GameObject wallObject;
+    public GameObject treePrefab;
+    [Range(0f, 1f)] public float TreeDensity = 0.1f;
+    [Min(0)] public int TreeStreetBuffer = 1;     // distance from Street
+    [Min(0)] public int TreeSidewalkBuffer = 0;   // distance from SideWalk (set 1+ to keep off sidewalks)
+    [Min(0)] public int TreeBuildingBuffer = 1;   // distance from Wall
+    [Min(0)] public int TreeTreeBuffer = 2;
+    public Vector2 TreeJitterXZ = new Vector2(0.2f, 0.2f);
+    public Vector2 TreeScaleRange = new Vector2(0.9f, 1.15f);
 
     [Header("Size")]
     public int MapWidth = 120;
     public int MapHeight = 80;
 
-    [Header("Walls")]
-    public bool FillRemainderAsWalls = true;
+    [Header("City Grid")]
+    [Min(4)] public int BlockSize = 16;
+    [Min(1)] public int RoadWidth = 3;
+    [Min(0)] public int SidewalkWidth = 1;
+    [Range(0f, 0.5f)] public float GridJitterChance = 0.10f;
 
-    // ---- CAVES (drunk-walk) params ----
-    [Header("Caves Settings")]
-    [Range(0f, 1f)] public float FillPercentage = 0.40f;
-    public int MaximumWalkers = 10;
-    [Range(0f, 1f)] public float ChangeChance = 0.5f;
+    [Header("Alleys (optional)")]
+    [Range(0f, 1f)] public float AlleyChance = 0.25f;
+    [Min(1)] public int AlleyWidth = 1;
 
-    // ---- DUNGEON (rooms + corridors) params ----
-    [Header("Dungeon Settings")]
-    public int RoomAttempts = 80;
-    public Vector2Int RoomSizeMinMax = new Vector2Int(4, 12);
-    [Range(0f, 1f)] public float CorridorJitterChance = 0.15f; // adds small wiggles/loops
-    [Range(0f, 1f)] public float ExtraConnectionsChance = 0.10f; // additional room links
+    [Header("Parks (Grass)")]
+    public int ParkAttempts = 35;
+    public Vector2Int ParkSizeMinMax = new Vector2Int(6, 14);
+    [Min(0)] public int ParkStreetSetback = 2;   // buffer from sidewalks/roads
+    [Min(1)] public int EntranceWidth = 2;       // sidewalk width from park to sidewalk
+
+    [Header("Buildings (Walls + prefabs)")]
+    public int BuildingAttempts = 80;
+    public Vector2Int BuildingSizeMinMax = new Vector2Int(4, 10);
+    [Min(0)] public int BuildingSetbackFromRoad = 1;
+    [Range(0f, 1f)] public float CourtyardChance = 0.2f;
+    [Min(0)] public int CourtyardInset = 1;
 
     [Header("Visualization (optional)")]
     public bool Visualize = false;
-    public float WaitTime = 0.02f;
+    public float WaitTime = 0.01f;
 
-    Cell[,] grid;
-    System.Random rnd;
+    private Cell[,] grid;
+    private System.Random rnd;
 
-    struct Walker { public Vector2Int pos, dir; }
+    // ---------- Lifecycle ----------
+    void Awake()
+    {
+        if (floorTileMap != null)
+        {
+            floorTileMap.orientation = Tilemap.Orientation.XZ;
+            floorTileMap.orientationMatrix = Matrix4x4.identity;
+            floorTileMap.tileAnchor = new Vector3(0.5f, 0f, 0.5f);
+        }
+        if (wallTileMap != null)
+        {
+            wallTileMap.orientation = Tilemap.Orientation.XZ;
+            wallTileMap.orientationMatrix = Matrix4x4.identity;
+            wallTileMap.tileAnchor = new Vector3(0.5f, 0f, 0.5f);
+        }
+    }
 
     void Start() => Generate();
+
     public void Regenerate()
     {
-        // stop any ongoing visualize coroutine from fighting you
         StopAllCoroutines();
-
-        // clear tiles before making a new grid
         if (floorTileMap) floorTileMap.ClearAllTiles();
         if (wallTileMap) wallTileMap.ClearAllTiles();
-
-        // (re)build
+        if (parentTransform)
+            for (int i = parentTransform.childCount - 1; i >= 0; i--)
+                Destroy(parentTransform.GetChild(i).gameObject);
         Generate();
     }
+
     public void Generate()
     {
         rnd = new System.Random(Seed);
-        grid = new Cell[MapWidth, MapHeight];
+        grid = new Cell[MapWidth, MapHeight]; // all Empty
 
-        switch (GenerationMode)
-        {
-            case Mode.Caves: GenerateCaves(); break;
-            case Mode.Dungeon: GenerateDungeon(); break;
-        }
+        GenerateCityGrid();     // roads + sidewalks with jitter/alleys
+        PlaceParks();           // carve Grass rectangles
+        EnforceStreetRingAroundGrass();  // 1-tile Street ring only where cells were Empty
+        PlaceBuildings();       // buildings (Walls) – no auto-ring
+        FillAllEmptyToGrass();  // everything else becomes Grass
 
-        BuildWalls();
-        if (FillRemainderAsWalls) FillAllEmptyToWalls();
         PushToTilemaps();
+        PlaceTrees();
         if (Visualize) StartCoroutine(VisualizeTiles());
     }
 
-    // ================== CAVES ==================
-    void GenerateCaves()
+    // ---------- Priority-safe writing ----------
+    bool InBounds(int x, int y) => x >= 0 && y >= 0 && x < MapWidth && y < MapHeight;
+
+    // Street > SideWalk priority; prevents sidewalks inside intersections.
+    void WriteCell(int x, int y, Cell t)
     {
-        int total = MapWidth * MapHeight;
-        int target = Mathf.Max(1, Mathf.FloorToInt(FillPercentage * total));
+        if (!InBounds(x, y)) return;
+        var cur = grid[x, y];
 
-        var walkers = new List<Walker>(MaximumWalkers);
-        var center = new Vector2Int(MapWidth / 2, MapHeight / 2);
-        walkers.Add(new Walker { pos = center, dir = RandDir() });
-        grid[center.x, center.y] = Cell.Floor;
-
-        int tileCount = 1;
-        while (tileCount < target)
+        if (t == Cell.Street)
         {
-            // stamp floors
-            for (int i = 0; i < walkers.Count; i++)
-            {
-                var w = walkers[i];
-                if (grid[w.pos.x, w.pos.y] != Cell.Floor)
-                {
-                    grid[w.pos.x, w.pos.y] = Cell.Floor;
-                    if (++tileCount >= target) break;
-                }
-            }
-            if (tileCount >= target) break;
-
-            // mutate walkers (separate passes)
-            if (walkers.Count > 1 && rnd.NextDouble() < ChangeChance)
-                walkers.RemoveAt(rnd.Next(walkers.Count));
-
-            for (int i = 0; i < walkers.Count; i++)
-                if (rnd.NextDouble() < ChangeChance)
-                    walkers[i] = new Walker { pos = walkers[i].pos, dir = RandDir() };
-
-            if (walkers.Count < MaximumWalkers && rnd.NextDouble() < ChangeChance)
-            {
-                var src = walkers[rnd.Next(walkers.Count)];
-                walkers.Add(new Walker { pos = src.pos, dir = RandDir() });
-            }
-
-            // move
-            for (int i = 0; i < walkers.Count; i++)
-            {
-                var w = walkers[i];
-                w.pos += w.dir;
-                w.pos.x = Mathf.Clamp(w.pos.x, 1, MapWidth - 2);
-                w.pos.y = Mathf.Clamp(w.pos.y, 1, MapHeight - 2);
-                walkers[i] = w;
-            }
+            grid[x, y] = Cell.Street; // always promote to Street
+        }
+        else if (t == Cell.SideWalk)
+        {
+            if (cur != Cell.Street) grid[x, y] = Cell.SideWalk; // never overwrite Street
+        }
+        else
+        {
+            grid[x, y] = t; // Grass/Wall/Empty as-is
         }
     }
 
-    // ================== DUNGEON ==================
-    void GenerateDungeon()
+    // ---------- City Grid ----------
+    void GenerateCityGrid()
     {
-        var rooms = new List<RectInt>(RoomAttempts);
-
-        // place non-overlapping rooms with a 1-tile padding
-        for (int i = 0; i < RoomAttempts; i++)
+        // Vertical stripes
+        for (int gx = BlockSize / 2; gx < MapWidth; gx += BlockSize)
         {
-            int rw = rnd.Next(RoomSizeMinMax.x, RoomSizeMinMax.y + 1);
-            int rh = rnd.Next(RoomSizeMinMax.x, RoomSizeMinMax.y + 1);
-            if (rw >= MapWidth - 4 || rh >= MapHeight - 4) continue;
-
-            int rx = rnd.Next(2, MapWidth - rw - 2);
-            int ry = rnd.Next(2, MapHeight - rh - 2);
-            var r = new RectInt(rx, ry, rw, rh);
-
-            bool overlaps = false;
-            for (int k = 0; k < rooms.Count; k++)
-            {
-                var o = Inflate(rooms[k], 1);
-                if (o.Overlaps(r)) { overlaps = true; break; }
-            }
-            if (overlaps) continue;
-
-            rooms.Add(r);
-            CarveRect(r);
+            int x = gx;
+            if (rnd.NextDouble() < GridJitterChance) x = Mathf.Clamp(x + (rnd.Next(2) == 0 ? -1 : 1), 2, MapWidth - 3);
+            CarveStripY(x, SidewalkWidth, RoadWidth, SidewalkWidth);
         }
 
-        if (rooms.Count == 0) return;
+        // Horizontal stripes
+        for (int gy = BlockSize / 2; gy < MapHeight; gy += BlockSize)
+        {
+            int y = gy;
+            if (rnd.NextDouble() < GridJitterChance) y = Mathf.Clamp(y + (rnd.Next(2) == 0 ? -1 : 1), 2, MapHeight - 3);
+            CarveStripX(y, SidewalkWidth, RoadWidth, SidewalkWidth);
+        }
 
-        // connect rooms: sort by x and link neighbors; add a few extra links
-        rooms.Sort((a, b) => a.x.CompareTo(b.x));
-        for (int i = 0; i < rooms.Count - 1; i++)
-            CarveCorridor(CenterInt(rooms[i]), CenterInt(rooms[i+1]));
+        // Optional alleys
+        if (AlleyChance > 0f && AlleyWidth > 0)
+        {
+            for (int gx = BlockSize; gx < MapWidth; gx += BlockSize)
+                if (rnd.NextDouble() < AlleyChance) CarveVerticalAlleyNear(gx, AlleyWidth);
 
-        // optional extra connections to reduce dead-ends
-        for (int i = 0; i < rooms.Count - 1; i++)
-            if (rnd.NextDouble() < ExtraConnectionsChance)
-            {
-                int j = Mathf.Clamp(i + 1 + rnd.Next(1, 3), 0, rooms.Count - 1);
-                CarveCorridor(CenterInt(rooms[i]), CenterInt(rooms[j]));
-            }
-
-        // ensure full connectivity (cheap flood fill + connect nearest)
-        EnsureConnectivity();
+            for (int gy = BlockSize; gy < MapHeight; gy += BlockSize)
+                if (rnd.NextDouble() < AlleyChance) CarveHorizontalAlleyNear(gy, AlleyWidth);
+        }
     }
 
-    // ----- Dungeon helpers -----
-    static RectInt Inflate(RectInt r, int m)
-        => new RectInt(r.xMin - m, r.yMin - m, r.width + 2 * m, r.height + 2 * m);
-    static Vector2Int CenterInt(RectInt r)
-    => new Vector2Int(r.x + r.width / 2, r.y + r.height / 2);
-
-    void FillAllEmptyToWalls()
+    void CarveStripY(int centerX, int sidewalkLeft, int road, int sidewalkRight)
     {
+        int total = sidewalkLeft + road + sidewalkRight;
+        int x0 = Mathf.Clamp(centerX - (total / 2), 0, MapWidth - 1);
+        int x1 = Mathf.Clamp(centerX + (total - 1) / 2, 0, MapWidth - 1);
+
+        for (int x = x0; x <= x1; x++)
+        {
+            bool leftWalk = (x - x0) < sidewalkLeft;
+            bool rightWalk = (x1 - x) < sidewalkRight;
+            bool inRoad = !leftWalk && !rightWalk;
+
+            for (int y = 0; y < MapHeight; y++)
+                WriteCell(x, y, inRoad ? Cell.Street : Cell.SideWalk);
+        }
+    }
+
+    void CarveStripX(int centerY, int sidewalkTop, int road, int sidewalkBottom)
+    {
+        int total = sidewalkTop + road + sidewalkBottom;
+        int y0 = Mathf.Clamp(centerY - (total / 2), 0, MapHeight - 1);
+        int y1 = Mathf.Clamp(centerY + (total - 1) / 2, 0, MapHeight - 1);
+
+        for (int y = y0; y <= y1; y++)
+        {
+            bool topWalk = (y - y0) < sidewalkTop;
+            bool bottomWalk = (y1 - y) < sidewalkBottom;
+            bool inRoad = !topWalk && !bottomWalk;
+
+            for (int x = 0; x < MapWidth; x++)
+                WriteCell(x, y, inRoad ? Cell.Street : Cell.SideWalk);
+        }
+    }
+
+    void CarveVerticalAlleyNear(int nearX, int width)
+    {
+        int x = Mathf.Clamp(nearX + (rnd.Next(3) - 1), 1, MapWidth - 2);
+
+        // if lots of road nearby, skip to avoid spam
+        int roadCount = 0;
+        for (int dx = -1; dx <= 1; dx++)
+            for (int y = 0; y < MapHeight; y++)
+                if (InBounds(x + dx, y) && grid[x + dx, y] == Cell.Street)
+                { roadCount++; if (roadCount > MapHeight / 4) return; }
+
+        for (int w = -width / 2; w <= (width - 1) / 2; w++)
+            for (int y = 0; y < MapHeight; y++)
+                WriteCell(Mathf.Clamp(x + w, 0, MapWidth - 1), y, Cell.Street);
+    }
+
+    void CarveHorizontalAlleyNear(int nearY, int width)
+    {
+        int y = Mathf.Clamp(nearY + (rnd.Next(3) - 1), 1, MapHeight - 2);
+
+        int roadCount = 0;
+        for (int dy = -1; dy <= 1; dy++)
+            for (int x = 0; x < MapWidth; x++)
+                if (InBounds(x, y + dy) && grid[x, y + dy] == Cell.Street)
+                { roadCount++; if (roadCount > MapWidth / 4) return; }
+
+        for (int w = -width / 2; w <= (width - 1) / 2; w++)
+            for (int x = 0; x < MapWidth; x++)
+                WriteCell(x, Mathf.Clamp(y + w, 0, MapHeight - 1), Cell.Street);
+    }
+
+    // ---------- Parks ----------
+    void PlaceParks()
+    {
+        for (int i = 0; i < ParkAttempts; i++)
+        {
+            int w = rnd.Next(ParkSizeMinMax.x, ParkSizeMinMax.y + 1);
+            int h = rnd.Next(ParkSizeMinMax.x, ParkSizeMinMax.y + 1);
+
+            int x = rnd.Next(ParkStreetSetback + 1, MapWidth - w - ParkStreetSetback - 1);
+            int y = rnd.Next(ParkStreetSetback + 1, MapHeight - h - ParkStreetSetback - 1);
+            var r = new RectInt(x, y, w, h);
+
+            if (!IsRectBuildable(r, ParkStreetSetback)) continue;
+
+            // Park interior = Grass
+            CarveRect(r, Cell.Grass);
+
+            // Entrance walkway to nearest sidewalk (never overwrite Street)
+            Vector2Int from = CenterInt(r);
+            Vector2Int to = NearestSidewalkCell(from);
+            if (to.x >= 0) CarveOrthogonalPathSidewalk(from, to, EntranceWidth);
+        }
+    }
+
+    // Only affects Empty cells adjacent to Grass => makes a clean 1-tile street ring around parks.
+    void EnforceStreetRingAroundGrass()
+    {
+        var outGrid = (Cell[,])grid.Clone();
+
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
-                if (grid[x, y] == Cell.Empty) grid[x, y] = Cell.Wall;
-    }
-
-    void CarveRect(RectInt r)
-    {
-        for (int y = r.yMin; y < r.yMax; y++)
-            for (int x = r.xMin; x < r.xMax; x++)
-                grid[x, y] = Cell.Floor;
-    }
-
-    void CarveCorridor(Vector2Int a, Vector2Int b)
-    {
-        // L-shaped with optional jitter for variety
-        int x = a.x, y = a.y;
-        while (x != b.x)
-        {
-            grid[x, y] = Cell.Floor;
-            x += x < b.x ? 1 : -1;
-            if (rnd.NextDouble() < CorridorJitterChance && y != b.y) // little wiggle
             {
-                y += y < b.y ? 1 : -1;
-                grid[x, y] = Cell.Floor;
+                if (grid[x, y] != Cell.Empty) continue;
+
+                bool adjGrass =
+                    (x > 0 && grid[x - 1, y] == Cell.Grass) ||
+                    (x + 1 < MapWidth && grid[x + 1, y] == Cell.Grass) ||
+                    (y > 0 && grid[x, y - 1] == Cell.Grass) ||
+                    (y + 1 < MapHeight && grid[x, y + 1] == Cell.Grass);
+
+                if (adjGrass) outGrid[x, y] = Cell.Street;
+            }
+
+        grid = outGrid;
+    }
+
+    // ---------- Buildings ----------
+    void PlaceBuildings()
+    {
+        for (int i = 0; i < BuildingAttempts; i++)
+        {
+            int w = rnd.Next(BuildingSizeMinMax.x, BuildingSizeMinMax.y + 1);
+            int h = rnd.Next(BuildingSizeMinMax.x, BuildingSizeMinMax.y + 1);
+
+            int x = rnd.Next(BuildingSetbackFromRoad + 1, MapWidth - w - BuildingSetbackFromRoad - 1);
+            int y = rnd.Next(BuildingSetbackFromRoad + 1, MapHeight - h - BuildingSetbackFromRoad - 1);
+            var r = new RectInt(x, y, w, h);
+
+            if (!IsRectBuildable(r, BuildingSetbackFromRoad)) continue;
+
+            // Building footprint
+            CarveRect(r, Cell.Wall);
+
+            // Optional courtyard (grass) inside
+            if (rnd.NextDouble() < CourtyardChance &&
+                r.width > 2 * (CourtyardInset + 1) &&
+                r.height > 2 * (CourtyardInset + 1))
+            {
+                var inner = new RectInt(
+                    r.x + CourtyardInset, r.y + CourtyardInset,
+                    r.width - 2 * CourtyardInset, r.height - 2 * CourtyardInset
+                );
+                CarveRect(inner, Cell.Grass);
             }
         }
-        while (y != b.y)
-        {
-            grid[x, y] = Cell.Floor;
-            y += y < b.y ? 1 : -1;
-        }
-        grid[x, y] = Cell.Floor;
     }
-
-    void EnsureConnectivity()
+    void PlaceTrees()
     {
-        // Label components (BFS)
-        int[,] comp = new int[MapWidth, MapHeight];
-        var dirs = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
-        int compCount = 0;
-        var q = new Queue<Vector2Int>();
+        if (!treePrefab || !parentTransform) return;
+
+        // Track where we’ve already placed trees to enforce TreeTreeBuffer
+        bool[,] hasTree = new bool[MapWidth, MapHeight];
 
         for (int y = 0; y < MapHeight; y++)
+        {
             for (int x = 0; x < MapWidth; x++)
             {
-                if (grid[x, y] != Cell.Floor || comp[x, y] != 0) continue;
-                compCount++;
-                comp[x, y] = compCount;
-                q.Clear(); q.Enqueue(new Vector2Int(x, y));
-                while (q.Count > 0)
+                // Only plant on grass (your parks/courtyards)
+                if (grid[x, y] != Cell.Grass) continue;
+
+                // Respect global density first to keep things fast
+                if (rnd.NextDouble() >= TreeDensity) continue;
+
+                // Keep distance from roads/sidewalks/buildings
+                if (TreeStreetBuffer > 0 && AnyNear(x, y, TreeStreetBuffer, c => c == Cell.Street)) continue;
+                if (TreeSidewalkBuffer > 0 && AnyNear(x, y, TreeSidewalkBuffer, c => c == Cell.SideWalk)) continue;
+                if (TreeBuildingBuffer > 0 && AnyNear(x, y, TreeBuildingBuffer, c => c == Cell.Wall)) continue;
+
+                // Keep distance from other trees we placed this pass
+                if (TreeTreeBuffer > 0 && AnyNear(x, y, TreeTreeBuffer, _ =>
                 {
-                    var p = q.Dequeue();
-                    foreach (var d in dirs)
+                    // Inline lookup using hasTree
+                    for (int dy = -TreeTreeBuffer; dy <= TreeTreeBuffer; dy++)
                     {
-                        int nx = p.x + d.x, ny = p.y + d.y;
-                        if (nx < 0 || ny < 0 || nx >= MapWidth || ny >= MapHeight) continue;
-                        if (grid[nx, ny] != Cell.Floor || comp[nx, ny] != 0) continue;
-                        comp[nx, ny] = compCount;
-                        q.Enqueue(new Vector2Int(nx, ny));
-                    }
-                }
-            }
-        if (compCount <= 1) return;
-
-        // Collect edge cells per component (floors that touch an empty)
-        var edges = new List<Vector2Int>[compCount + 1];
-        for (int i = 0; i <= compCount; i++) edges[i] = new List<Vector2Int>();
-
-        for (int y = 1; y < MapHeight - 1; y++)
-            for (int x = 1; x < MapWidth - 1; x++)
-            {
-                if (grid[x, y] != Cell.Floor) continue;
-                int c = comp[x, y];
-                if (c == 0) continue;
-                // touches empty?
-                if (grid[x + 1, y] == Cell.Empty || grid[x - 1, y] == Cell.Empty ||
-                    grid[x, y + 1] == Cell.Empty || grid[x, y - 1] == Cell.Empty)
-                {
-                    edges[c].Add(new Vector2Int(x, y));
-                }
-            }
-
-        // Union-Find over components
-        int[] parent = new int[compCount + 1];
-        for (int i = 1; i <= compCount; i++) parent[i] = i;
-        int Find(int a) => parent[a] == a ? a : (parent[a] = Find(parent[a]));
-        void Union(int a, int b) { a = Find(a); b = Find(b); if (a != b) parent[b] = a; }
-
-        // Repeatedly connect the two closest distinct components via their edge cells
-        int groupsLeft()
-        {
-            var seen = new HashSet<int>();
-            for (int i = 1; i <= compCount; i++) if (edges[i].Count > 0) seen.Add(Find(i));
-            return seen.Count;
-        }
-
-        while (groupsLeft() > 1)
-        {
-            int bestA = -1, bestB = -1, bestD = int.MaxValue;
-            Vector2Int pa = default, pb = default;
-
-            // Compare edge lists only (much smaller than all floor cells)
-            for (int a = 1; a <= compCount; a++)
-            {
-                int ra = Find(a); if (edges[a].Count == 0) continue;
-                for (int b = a + 1; b <= compCount; b++)
-                {
-                    int rb = Find(b); if (rb == ra || edges[b].Count == 0) continue;
-
-                    // crude early exit if components already united in later iterations
-                    if (Find(a) == Find(b)) continue;
-
-                    foreach (var ea in edges[a])
-                        foreach (var eb in edges[b])
+                        int yy = y + dy; if (yy < 0 || yy >= MapHeight) continue;
+                        for (int dx = -TreeTreeBuffer; dx <= TreeTreeBuffer; dx++)
                         {
-                            int dx = ea.x - eb.x, dy = ea.y - eb.y;
-                            int d = dx * dx + dy * dy;
-                            if (d < bestD)
-                            {
-                                bestD = d; bestA = a; bestB = b; pa = ea; pb = eb;
-                            }
+                            int xx = x + dx; if (xx < 0 || xx >= MapWidth) continue;
+                            if (hasTree[xx, yy]) return true;
                         }
-                }
-            }
-
-            if (bestA == -1) break; // nothing found (shouldn't happen)
-
-            // Carve corridor between best pair (Manhattan carve)
-            CarveCorridor(pa, pb);
-
-            // Relabel new path quickly: flood from pb, converting any connected floors to bestA's root
-            int targetComp = Find(bestA);
-            q.Clear(); q.Enqueue(pb);
-            while (q.Count > 0)
-            {
-                var p = q.Dequeue();
-                if (comp[p.x, p.y] == targetComp) continue;
-                comp[p.x, p.y] = targetComp;
-                foreach (var d in dirs)
-                {
-                    int nx = p.x + d.x, ny = p.y + d.y;
-                    if (nx < 0 || ny < 0 || nx >= MapWidth || ny >= MapHeight) continue;
-                    if (grid[nx, ny] != Cell.Floor) continue;
-                    if (comp[nx, ny] == targetComp) continue;
-                    q.Enqueue(new Vector2Int(nx, ny));
-                }
-            }
-
-            Union(bestA, bestB);
-
-            // Update edge lists along the carved path (they may no longer be edges)
-            // For simplicity, just rebuild edges for the two sets involved (cheap enough):
-            edges[bestA].Clear();
-            edges[bestB].Clear();
-            for (int y = 1; y < MapHeight - 1; y++)
-                for (int x = 1; x < MapWidth - 1; x++)
-                {
-                    if (grid[x, y] != Cell.Floor) continue;
-                    int c = comp[x, y];
-                    if (c == 0) continue;
-                    if (grid[x + 1, y] == Cell.Empty || grid[x - 1, y] == Cell.Empty ||
-                        grid[x, y + 1] == Cell.Empty || grid[x, y - 1] == Cell.Empty)
-                    {
-                        edges[c].Add(new Vector2Int(x, y));
                     }
-                }
+                    return false;
+                })) continue;
+
+                // World position + a little random jitter for natural look
+                Vector3 worldPos = floorTileMap != null
+                    ? floorTileMap.GetCellCenterWorld(new Vector3Int(x, y, 0))
+                    : new Vector3(x + 0.5f, 0f, y + 0.5f);
+
+                float jx = (float)(rnd.NextDouble() * 2 - 1) * TreeJitterXZ.x;
+                float jz = (float)(rnd.NextDouble() * 2 - 1) * TreeJitterXZ.y;
+                worldPos += new Vector3(jx, 0f, jz);
+
+                var go = Instantiate(treePrefab, worldPos, Quaternion.identity, parentTransform);
+
+                // Random rotation/scale
+                go.transform.Rotate(0f, rnd.Next(0, 360), 0f);
+                float s = Mathf.Lerp(TreeScaleRange.x, TreeScaleRange.y, (float)rnd.NextDouble());
+                go.transform.localScale *= s;
+
+                hasTree[x, y] = true;
+            }
         }
     }
 
 
-    // ================== Walls + Tilemaps ==================
-    void BuildWalls()
+    // ---------- Final fill ----------
+    void FillAllEmptyToGrass()
     {
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
-            {
-                if (grid[x, y] != Cell.Floor) continue;
-
-                if (x + 1 < MapWidth && grid[x + 1, y] == Cell.Empty) grid[x + 1, y] = Cell.Wall;
-                if (x - 1 >= 0 && grid[x - 1, y] == Cell.Empty) grid[x - 1, y] = Cell.Wall;
-                if (y + 1 < MapHeight && grid[x, y + 1] == Cell.Empty) grid[x, y + 1] = Cell.Wall;
-                if (y - 1 >= 0 && grid[x, y - 1] == Cell.Empty) grid[x, y - 1] = Cell.Wall;
-            }
+                if (grid[x, y] == Cell.Empty) grid[x, y] = Cell.Grass;
     }
 
+    // ---------- Tilemaps ----------
     void PushToTilemaps()
     {
         var floors = new List<Vector3Int>();
@@ -380,53 +384,174 @@ public class WalkerGenerator : MonoBehaviour
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
             {
-                var p = new Vector3Int(x, y, 0);
+                var cell = new Vector3Int(x, y, 0);
                 switch (grid[x, y])
                 {
-                    case Cell.Floor: floors.Add(p); floorTiles.Add(Floor); break;
-                    case Cell.Wall: walls.Add(p); wallTiles.Add(Wall); Instantiate(wallObject, new Vector3(x, 0, y), Quaternion.identity, parentTransform); break;
+                    case Cell.Street:
+                        floors.Add(cell); floorTiles.Add(Street);
+                        break;
+                    case Cell.SideWalk:
+                        floors.Add(cell); floorTiles.Add(SideWalk);
+                        break;
+                    case Cell.Grass:
+                        floors.Add(cell); floorTiles.Add(Grass);
+                        break;
+                    case Cell.Wall:
+                        walls.Add(cell); wallTiles.Add(Wall);
+                        var worldPos = wallTileMap != null ? wallTileMap.GetCellCenterWorld(cell) : new Vector3(x, 0f, y);
+                        if (wallObject && parentTransform) Instantiate(wallObject, worldPos, Quaternion.identity, parentTransform);
                         break;
                 }
             }
 
-        floorTileMap.ClearAllTiles();
-        wallTileMap.ClearAllTiles();
-        floorTileMap.SetTiles(floors.ToArray(), floorTiles.ToArray());
-        wallTileMap.SetTiles(walls.ToArray(), wallTiles.ToArray());
-        floorTileMap.CompressBounds();
-        wallTileMap.CompressBounds();
+        if (floorTileMap)
+        {
+            floorTileMap.ClearAllTiles();
+            floorTileMap.SetTiles(floors.ToArray(), floorTiles.ToArray());
+            floorTileMap.CompressBounds();
+        }
+        if (wallTileMap)
+        {
+            wallTileMap.ClearAllTiles();
+            wallTileMap.SetTiles(walls.ToArray(), wallTiles.ToArray());
+            wallTileMap.CompressBounds();
+        }
     }
 
     System.Collections.IEnumerator VisualizeTiles()
     {
-        floorTileMap.ClearAllTiles();
-        wallTileMap.ClearAllTiles();
-
-        // draw floors then walls over time for fun
-        for (int y = 0; y < MapHeight; y++)
-            for (int x = 0; x < MapWidth; x++)
-                if (grid[x, y] == Cell.Floor)
-                { floorTileMap.SetTile(new Vector3Int(x, 0, y), Floor); yield return new WaitForSeconds(WaitTime); }
+        if (floorTileMap) floorTileMap.ClearAllTiles();
+        if (wallTileMap) wallTileMap.ClearAllTiles();
 
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
-                if (grid[x, y] == Cell.Wall)
-                { wallTileMap.SetTile(new Vector3Int(x, 0, y), Wall); yield return new WaitForSeconds(WaitTime); }
+            {
+                var pos = new Vector3Int(x, y, 0);
+                if (grid[x, y] == Cell.Street) floorTileMap.SetTile(pos, Street);
+                else if (grid[x, y] == Cell.SideWalk) floorTileMap.SetTile(pos, SideWalk);
+                else if (grid[x, y] == Cell.Grass) floorTileMap.SetTile(pos, Grass);
+                yield return new WaitForSeconds(WaitTime);
+            }
+
+        for (int y = 0; y < MapHeight; y++)
+            for (int x = 0; x < MapWidth; x++)
+            {
+                if (grid[x, y] != Cell.Wall) continue;
+                var pos = new Vector3Int(x, y, 0);
+                wallTileMap.SetTile(pos, Wall);
+                var worldPos = wallTileMap.GetCellCenterWorld(pos);
+                if (wallObject && parentTransform) Instantiate(wallObject, worldPos, Quaternion.identity, parentTransform);
+                yield return new WaitForSeconds(WaitTime);
+            }
     }
 
-    // ================== Utils ==================
-    Vector2Int RandDir()
+    // ---------- Helpers ----------
+    static RectInt Inflate(RectInt r, int m)
+        => new RectInt(r.xMin - m, r.yMin - m, r.width + 2 * m, r.height + 2 * m);
+
+    static Vector2Int CenterInt(RectInt r)
+        => new Vector2Int(r.x + r.width / 2, r.y + r.height / 2);
+
+    void CarveRect(RectInt r, Cell type)
     {
-        switch (rnd.Next(4))
+        int xMin = Mathf.Max(0, r.xMin);
+        int yMin = Mathf.Max(0, r.yMin);
+        int xMax = Mathf.Min(MapWidth, r.xMax);
+        int yMax = Mathf.Min(MapHeight, r.yMax);
+
+        for (int y = yMin; y < yMax; y++)
+            for (int x = xMin; x < xMax; x++)
+                grid[x, y] = type;
+    }
+
+    bool IsRectBuildable(RectInt r, int setback)
+    {
+        var rr = Inflate(r, setback);
+        if (rr.xMin < 1 || rr.yMin < 1 || rr.xMax > MapWidth - 1 || rr.yMax > MapHeight - 1) return false;
+
+        for (int y = rr.yMin; y < rr.yMax; y++)
+            for (int x = rr.xMin; x < rr.xMax; x++)
+                if (grid[x, y] == Cell.Street || grid[x, y] == Cell.SideWalk) return false;
+        return true;
+    }
+
+    Vector2Int NearestSidewalkCell(Vector2Int from)
+    {
+        var visited = new bool[MapWidth, MapHeight];
+        var q = new Queue<Vector2Int>();
+        q.Enqueue(from);
+        visited[from.x, from.y] = true;
+
+        while (q.Count > 0)
         {
-            case 0: return Vector2Int.down;
-            case 1: return Vector2Int.left;
-            case 2: return Vector2Int.up;
-            default: return Vector2Int.right;
+            var p = q.Dequeue();
+            if (grid[p.x, p.y] == Cell.SideWalk)
+            {
+                // prefer boundary-ish sidewalks
+                if ((p.x > 0 && grid[p.x - 1, p.y] == Cell.Empty) ||
+                    (p.x + 1 < MapWidth && grid[p.x + 1, p.y] == Cell.Empty) ||
+                    (p.y > 0 && grid[p.x, p.y - 1] == Cell.Empty) ||
+                    (p.y + 1 < MapHeight && grid[p.x, p.y + 1] == Cell.Empty))
+                    return p;
+            }
+
+            TryEnq(p + Vector2Int.right);
+            TryEnq(p + Vector2Int.left);
+            TryEnq(p + Vector2Int.up);
+            TryEnq(p + Vector2Int.down);
+        }
+        return new Vector2Int(-1, -1);
+
+        void TryEnq(Vector2Int v)
+        {
+            if (!InBounds(v.x, v.y)) return;
+            if (visited[v.x, v.y]) return;
+            visited[v.x, v.y] = true;
+            q.Enqueue(v);
         }
     }
 
-    // ================== Testing ==================
+    // Scan a Chebyshev (square) neighborhood for any cell matching a predicate
+    bool AnyNear(int cx, int cy, int radius, System.Func<Cell, bool> match)
+    {
+        if (radius <= 0) return false;
+        for (int dy = -radius; dy <= radius; dy++)
+        {
+            int y = cy + dy;
+            if (y < 0 || y >= MapHeight) continue;
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                int x = cx + dx;
+                if (x < 0 || x >= MapWidth) continue;
+                if (match(grid[x, y])) return true;
+            }
+        }
+        return false;
+    }
+
+    // Sidewalk path that NEVER overwrites Street (prevents sidewalks through intersections/roads)
+    void CarveOrthogonalPathSidewalk(Vector2Int a, Vector2Int b, int width)
+    {
+        int x = a.x, y = a.y;
+        int half = Mathf.Max(0, width / 2);
+
+        void CarveChunk(int cx, int cy)
+        {
+            for (int dx = -half; dx <= half; dx++)
+                for (int dy = -half; dy <= half; dy++)
+                {
+                    int nx = cx + dx, ny = cy + dy;
+                    if (!InBounds(nx, ny)) continue;
+                    if (grid[nx, ny] == Cell.Street) continue; // keep roads intact
+                    WriteCell(nx, ny, Cell.SideWalk);
+                }
+        }
+
+        while (x != b.x) { CarveChunk(x, y); x += x < b.x ? 1 : -1; }
+        while (y != b.y) { CarveChunk(x, y); y += y < b.y ? 1 : -1; }
+        CarveChunk(x, y);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -434,6 +559,5 @@ public class WalkerGenerator : MonoBehaviour
             Debug.Log("Regenerated with Seed: " + Seed);
             Regenerate();
         }
-            
     }
 }
