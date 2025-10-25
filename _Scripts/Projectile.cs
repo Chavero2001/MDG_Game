@@ -10,7 +10,8 @@ public class Projectile : MonoBehaviour
     public int Damage = 1;
 
     public string Tag; // passed from the parent(spawner)
-    [SerializeField] private float ModifierX = 0f;
+    //THis modifiers are just in case the precistion of the bullet needs to be adjusted
+    [SerializeField] private float ModifierX = 0f; 
     [SerializeField] private float ModifierZ = 0f;
     [SerializeField] private float ModifierY = 1f;
     public GameObject Parent;

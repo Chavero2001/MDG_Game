@@ -11,8 +11,9 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
 
     Vector3 moveDirection;
-    
+    public PlayerCamera playerCamera1;
     Rigidbody rb;
+    private float regenTimer=0;
     private float dashTimer = 0f;
     private float dashSpeed = 1f;
 
@@ -25,6 +26,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (lifePoints < 5)
+        {
+            regenTimer += Time.deltaTime;
+            if (regenTimer > 2)
+            {
+                lifePoints += 1;
+                regenTimer = 0;
+            }
+        }
         // Rotation
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -58,5 +68,13 @@ public class PlayerMovement : MonoBehaviour
         dashTimer -= Time.deltaTime;
         Vector3 movementVelocity = moveDir * moveSpeed*dashSpeed;
         rb.linearVelocity = movementVelocity;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Projectile"))
+        {
+         
+            playerCamera1.Shake(0.25f, 0.15f);
+        }
     }
 }

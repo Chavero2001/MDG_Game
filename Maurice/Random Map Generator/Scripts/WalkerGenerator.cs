@@ -75,6 +75,7 @@ public class WalkerGenerator : MonoBehaviour
     // ---------- Lifecycle ----------
     void Awake()
     {
+        Seed = Random.Range(1000, 5000);
         if (floorTileMap != null)
         {
             floorTileMap.orientation = Tilemap.Orientation.XZ;
