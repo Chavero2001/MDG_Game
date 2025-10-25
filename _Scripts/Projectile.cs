@@ -30,13 +30,13 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         //transform.position = Vector3.MoveTowards(transform.position, TargetPosition, ProjectileSpeed * Time.deltaTime);
-        if (tag == "Player")
+        if (tag == "Player")//Projectile behavior if the enemy is spawing the projectile
         {
             transform.position += Direction * ProjectileSpeed * Time.deltaTime;
         }
-        if (tag == "Enemy")
+        if (tag == "Enemy")//Projectile if player spawns the projectile
         {
-
+            transform.position += gameObject.transform.position; 
         }
     }
 
