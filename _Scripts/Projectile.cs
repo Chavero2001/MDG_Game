@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     Vector3 TargetPosition;
     public float ProjectileSpeed;
-    public float Damage = 1.0f;
+    public int Damage = 1;
 
     public GameObject Target;
 
@@ -15,6 +15,9 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float ModifierX;
     [SerializeField] private float ModifierZ;
     //[SerializeField] private string QuotedTag;//Just for FindGameObject to work
+
+    public GameObject parent;
+
     private void Start()
     {
         Init(null);

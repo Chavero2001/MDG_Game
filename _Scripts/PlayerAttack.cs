@@ -21,6 +21,8 @@ public class PlayerAttack : MonoBehaviour
             GameObject projectileInstance = Instantiate(projectilePrefab, globalSpawnPosition, spawnRotation);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
             projectile.Init("Enemy");
+            projectile.parent = gameObject;
+            Debug.Log("Player Shoot");
         }
     }
 }

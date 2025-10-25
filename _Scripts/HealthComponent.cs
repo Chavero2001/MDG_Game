@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    public float health = 3.0f;
+    public int health = 3;
 
     private void OnCollisionEnter(Collision collision)
     {
        if (collision.gameObject.CompareTag("Projectile"))
         {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-            health -= projectile.Damage;
-            Debug.Log(health);
-            if (health <= 0.0f) {
-                Destroy(gameObject);
+            if (projectile.parent != gameObject) {
+                health -= projectile.Damage;
+                if (health <= 0) {
+                    Destroy(gameObject);
+                }
+                Destroy(collision.gameObject);
             }
-            Destroy(collision.gameObject);
         }  
     }
 }

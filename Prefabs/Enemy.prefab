@@ -287,6 +287,7 @@ MonoBehaviour:
   - {fileID: 6206396780479410983}
   - {fileID: 1805530810759063783}
   - {fileID: 6823368090885666743}
+  Player: {fileID: 0}
 --- !u!114 &6446433013480855853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +297,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6715332332630881989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b4047f87c30d2b518f1adbcbc5e4d63, type: 3}
+  m_Script: {fileID: 11500000, guid: 708061af5518ee64d8f1dd7409bd6141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   health: 3
