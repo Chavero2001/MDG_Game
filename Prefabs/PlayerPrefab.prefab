@@ -431,6 +431,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fa1cd61b254b847868d0724fbba3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  orientation: {fileID: 1075210968827337074}
-  playerCamera: {fileID: 3804124898790379985}
+  moveSpeed: 5
+  orientation: {fileID: 0}
