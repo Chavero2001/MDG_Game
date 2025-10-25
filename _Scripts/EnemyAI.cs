@@ -23,27 +23,35 @@ public class EnemyAI : MonoBehaviour
     Transform PlayerTransform;
     Rigidbody EnemyRb;
 
-   // Update is called once per frame
+    private void Start()
+    {
+        Debug.Log(PatrolPoint);
+    }
+
+    // Update is called once per frame
     void Update()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
+        //Debug.Log(DistanceFromPlayer);
 
         if (DistanceFromPlayer < MinimumDistance)
         {
-            escape();
+            //chase if the player is too close to the enemy
+            chase();
 
         }
         else
-        {
+        {   //if the player goes far away, return to patrol
             patrol();
         }
     }
 
-    private void escape()
+    private void chase()
     {
-        if (Vector3.Distance(transform.position, Player.position) < SafetyDistance)
+        if (Vector3.Distance(transform.position, Player.position) > SafetyDistance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, Player.position, -EnemySpeed * Time.deltaTime);
+            //Chase the player and stop to choose at the safety distance
+            transform.position = Vector3.MoveTowards(transform.position, Player.position, EnemySpeed * Time.deltaTime);
         }
         else
         {
@@ -59,21 +67,21 @@ public class EnemyAI : MonoBehaviour
             NextShotTime = Time.time + TimeBetweenShots;
         }
     }
-    
+
     private void patrol()
     {
-        if (transform.position != PatrolPoint[CurrentPointIndex].position)
+        // Distance to current patrol point
+        float distanceToPoint = Vector3.Distance(transform.position, PatrolPoint[CurrentPointIndex].position);
+
+        if (distanceToPoint > 0.2f) // Allow some margin instead of exact position match
         {
-            transform.position = Vector2.MoveTowards(transform.position, PatrolPoint[CurrentPointIndex].position, EnemySpeed * Time.deltaTime);
-            //Debug.Log("First Patrol");
-            Debug.Log(CurrentPointIndex);
-            Debug.Log(PatrolPoint.Length);
+            Debug.Log(distanceToPoint);
+            transform.position = Vector3.MoveTowards(transform.position, PatrolPoint[CurrentPointIndex].position, EnemySpeed * Time.deltaTime);
         }
         else
         {
-
-            Debug.Log(CurrentPointIndex);
-            if (CurrentPointIndex + 1 == PatrolPoint.Length)
+            // Move to next patrol point
+            if (CurrentPointIndex + 1 >= PatrolPoint.Length)
             {
                 CurrentPointIndex = 0;
             }
@@ -81,6 +89,12 @@ public class EnemyAI : MonoBehaviour
             {
                 CurrentPointIndex++;
             }
+
+            // Optional: small pause before moving to next point
+            // StartCoroutine(WaitBeforeNextPoint());
         }
     }
+
+    
+
 }
