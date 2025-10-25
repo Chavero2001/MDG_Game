@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     private float dashTimer = 0f;
     private float dashSpeed = 1f;
+
+    static public float lifePoints = 5f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,5 +58,12 @@ public class PlayerMovement : MonoBehaviour
         dashTimer -= Time.deltaTime;
         Vector3 movementVelocity = moveDir * moveSpeed*dashSpeed;
         rb.linearVelocity = movementVelocity;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Projectile"))
+        {
+            lifePoints -= 1;
+        }
     }
 }
