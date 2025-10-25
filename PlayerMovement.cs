@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && dashTimer<=-0.5)
         {
             dashSpeed = 5f;
-            dashTimer = 0.1f;
+            dashTimer = 0.035f;
         }
         if(dashTimer <= 0)
         {
@@ -58,12 +58,5 @@ public class PlayerMovement : MonoBehaviour
         dashTimer -= Time.deltaTime;
         Vector3 movementVelocity = moveDir * moveSpeed*dashSpeed;
         rb.linearVelocity = movementVelocity;
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Projectile"))
-        {
-            lifePoints -= 1;
-        }
     }
 }
