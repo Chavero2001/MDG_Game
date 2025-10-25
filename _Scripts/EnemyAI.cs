@@ -142,15 +142,17 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time > NextShotTime)
         {
-            Debug.Log("Is Shooting");
-            Instantiate(Projectiles, transform.position, Quaternion.identity);
+            //Debug.Log("Is Shooting");
+            GameObject projectileInstance = Instantiate(Projectiles, transform.position, Quaternion.identity);
+            Projectile projectile = projectileInstance.GetComponent<Projectile>();
+            projectile.Init("Player", gameObject);
             NextShotTime = Time.time + TimeBetweenShots;
         }
     }
 
     private void patrol()
     {
-        Debug.Log("Is patrolling");
+        //Debug.Log("Is patrolling");
         // Distance to current patrol point
         float distanceToPoint = Vector3.Distance(transform.position, PatrolPoint[CurrentPointIndex].position);
 

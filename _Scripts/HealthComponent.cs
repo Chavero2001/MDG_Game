@@ -6,12 +6,15 @@ public class HealthComponent : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collide");
        if (collision.gameObject.CompareTag("Projectile"))
         {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-            if (projectile.parent != gameObject) {
+            Debug.Log("Hit");
+            if (projectile.Parent != gameObject) {
                 health -= projectile.Damage;
                 if (health <= 0) {
+                    Debug.Log("Die");
                     Destroy(gameObject);
                 }
                 Destroy(collision.gameObject);

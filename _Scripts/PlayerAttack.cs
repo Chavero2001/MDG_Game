@@ -20,9 +20,7 @@ public class PlayerAttack : MonoBehaviour
             Quaternion spawnRotation = Quaternion.identity;
             GameObject projectileInstance = Instantiate(projectilePrefab, globalSpawnPosition, spawnRotation);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
-            projectile.Init("Enemy");
-            projectile.parent = gameObject;
-            Debug.Log("Player Shoot");
+            projectile.Init("Enemy", gameObject);
         }
     }
 }

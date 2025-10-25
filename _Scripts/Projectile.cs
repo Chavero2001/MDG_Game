@@ -16,11 +16,10 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float ModifierZ;
     //[SerializeField] private string QuotedTag;//Just for FindGameObject to work
 
-    public GameObject parent;
+    public GameObject Parent;
 
     private void Start()
     {
-        Init(null);
     }
 
     private void Destroy() {
@@ -45,10 +44,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Init(string tag) {
-        if (tag != null && tag != "") {
-            Tag = tag;
-        }
+    public void Init(string tag, GameObject parent) {
+        Tag = tag;
+        Parent = parent;
 
         if (Tag != null && Tag != "") {
             Target = GameObject.FindGameObjectWithTag(Tag);

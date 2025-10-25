@@ -281,7 +281,7 @@ MonoBehaviour:
   MinimumDistance: 15
   SafetyDistance: 10
   TimeBetweenShots: 0.5
-  Projectiles: {fileID: 218670679693332553, guid: 290e15302e95c8c4a9931477634b7241, type: 3}
+  Projectiles: {fileID: 218670679693332553, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
   PatrolPoint:
   - {fileID: 6111773535567039421}
   - {fileID: 6206396780479410983}
