@@ -10,9 +10,9 @@ public class Projectile : MonoBehaviour
     public int Damage = 1;
 
     public string Tag; // passed from the parent(spawner)
-    [SerializeField] private float ModifierX = 1f;
-    [SerializeField] private float ModifierZ = 1f;
-
+    [SerializeField] private float ModifierX = 0f;
+    [SerializeField] private float ModifierZ = 0f;
+    [SerializeField] private float ModifierY = 1f;
     public GameObject Parent;
 
     private void Start()
@@ -59,7 +59,7 @@ public class Projectile : MonoBehaviour
             {
                 TargetPosition = new Vector3(
                     target.transform.position.x + ModifierX,
-                    target.transform.position.y,
+                    target.transform.position.y + ModifierY,
                     target.transform.position.z + ModifierZ
                 );
                 Direction = (TargetPosition - transform.position).normalized;

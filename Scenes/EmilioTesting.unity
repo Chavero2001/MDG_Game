@@ -638,6 +638,10 @@ PrefabInstance:
       propertyPath: EnemySpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4871206099760068511, guid: bae6221a1af5ffc4098032db87a34e66, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7593417178403302026, guid: bae6221a1af5ffc4098032db87a34e66, type: 3}
       propertyPath: m_Name
       value: GameDeveloper
@@ -658,6 +662,14 @@ PrefabInstance:
     - target: {fileID: 356075147842171635, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
       propertyPath: m_Name
       value: OfficeWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317522243889917926, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317522243889917926, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6444589640849172016, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
       propertyPath: EnemySpeed
@@ -719,6 +731,10 @@ PrefabInstance:
     - target: {fileID: 277778023580146605, guid: e85e0aa604d561841abbe7193c73df6b, type: 3}
       propertyPath: m_Name
       value: BlueWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963897654919972536, guid: e85e0aa604d561841abbe7193c73df6b, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6792587071529127790, guid: e85e0aa604d561841abbe7193c73df6b, type: 3}
       propertyPath: EnemySpeed
