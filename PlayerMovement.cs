@@ -42,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
         // Movement
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+<<<<<<< HEAD
+=======
+        //Debug.Log(horizontalInput);
+
+>>>>>>> 9e49fcea2d7e4aef491ba0c94c1ab82aaa42df48
         Vector3 inputDir = new Vector3(horizontalInput, 0f, verticalInput).normalized;
         Vector3 moveDir = transform.TransformDirection(inputDir);
         Vector3 movementVelocity = moveDir * moveSpeed;

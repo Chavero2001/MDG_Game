@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectileSpeed: 15
   Tag: Enemy
+  QuotedTag: '"Enemy"'
 --- !u!54 &3315627476736645660
 Rigidbody:
   m_ObjectHideFlags: 0
