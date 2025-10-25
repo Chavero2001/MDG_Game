@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     Vector3 TargetPosition;
     public float ProjectileSpeed;
 
-    GameObject Target;
+    public GameObject Target;
 
     //Tag for the projectile to search
     [SerializeField] private string Tag;
@@ -19,6 +19,11 @@ public class Projectile : MonoBehaviour
         Target = GameObject.FindGameObjectWithTag(Tag);
         TargetPosition = new Vector3(Target.transform.position.x* ModifierX, Target.transform.position.y, Target.transform.position.z* ModifierZ);
 
+        Invoke("Destroy", 2.0f);
+    }
+
+    private void Destroy() {
+        Destroy(gameObject);
     }
 
     private void Update()
