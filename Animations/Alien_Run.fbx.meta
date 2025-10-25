@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: 790f38217ad2f064a9e197cd86e3e25c
+guid: 30dd1684d16e4044db7d228b1115a191
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: M_Alien
-    second: {fileID: 2100000, guid: 0cfbacabbd8ed16459f65b4e9835e4b9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: M_Alien_Face
-    second: {fileID: 2100000, guid: 4a66c934491402b4284e42d1337453db, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
