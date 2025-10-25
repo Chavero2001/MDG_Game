@@ -41,7 +41,7 @@ public class Invisible : MonoBehaviour
         Material[] mats = rend.materials;
         foreach (int idx in targetMaterialIndices)
         {
-            if (idx >= 0 && idx < mats.Length && mats[idx] != null)
+            if (true)//idx >= 0 && idx < mats.Length && mats[idx] != null)
             {
                 Material mat = mats[idx];
                 string colorProp = mat.HasProperty("_BaseColor") ? "_BaseColor" : "_Color";
