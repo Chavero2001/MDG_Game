@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: Projectiles
       value: 
-      objectReference: {fileID: 7291365461315113828, guid: 1e690a34ed7df0f4aa4fd296d54ce70e, type: 3}
+      objectReference: {fileID: 7291365461315113828, guid: 422b05362422e644e8cb014f272a2600, type: 3}
     - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: TimeBetweenShots
       value: 1
