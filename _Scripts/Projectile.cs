@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     Vector3 TargetPosition;
     public float ProjectileSpeed;
+    public float Damage = 1.0f;
 
     public GameObject Target;
 

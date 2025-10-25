@@ -49,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
     private void chase()
     {
-        Debug.Log("Is chasing");
+        //Debug.Log("Is chasing");
         if (Vector3.Distance(transform.position, Player.position) > SafetyDistance)
         {
             //Chase the player and stop to choose at the safety distance
