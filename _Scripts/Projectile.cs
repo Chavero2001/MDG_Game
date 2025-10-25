@@ -1,64 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    Vector3 TargetPosition;
-    public float ProjectileSpeed;
+    private Vector3 Direction;
+    private Vector3 TargetPosition;
+    private Rigidbody Rb;
+
+    public float ProjectileSpeed = 10f;
     public int Damage = 1;
 
-    public GameObject Target;
-
-    private Vector3 Direction; 
-
-    //Tag for the projectile to search
-    [SerializeField] public string Tag;
-    [SerializeField] private float ModifierX;
-    [SerializeField] private float ModifierZ;
+    public string Tag; // passed from the parent(spawner)
+    [SerializeField] private float ModifierX = 1f;
+    [SerializeField] private float ModifierZ = 1f;
 
     public GameObject Parent;
 
     private void Start()
     {
-    }
-
-    private void Destroy() {
-        Destroy(gameObject);
+        Rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        //transform.position = Vector3.MoveTowards(transform.position, TargetPosition, ProjectileSpeed * Time.deltaTime);
-        if (tag == "Player")//Projectile behavior if the enemy is spawing the projectile
-        {
-            transform.position += Direction * ProjectileSpeed * Time.deltaTime;
-        }
-        if (tag == "Enemy")//Projectile if player spawns the projectile
-        {
-            transform.position += gameObject.transform.position; 
-        }
+        // Move projectile in its stored direction
+        transform.position += Direction * ProjectileSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == Tag)
+        // Destroy projectile if it hits its intended target
+        if (collider.CompareTag(Tag))
         {
             Destroy(gameObject);
         }
     }
 
-    public void Init(string tag, GameObject parent) {
-        Tag = tag;
+    public void Init(string TargetTag, GameObject parent)
+    {
         Parent = parent;
 
-        if (Tag != null && Tag != "") {
-            Target = GameObject.FindGameObjectWithTag(Tag);
-            TargetPosition = new Vector3(Target.transform.position.x* ModifierX, Target.transform.position.y, Target.transform.position.z* ModifierZ);
+        if (TargetTag == "Player")
+        {
+            // Enemy fires toward player
+            Tag = "Player";
+            GameObject target = GameObject.FindGameObjectWithTag("Player");
 
-            Direction = (TargetPosition - transform.position).normalized;
-            Invoke("Destroy", 2.0f);
+            if (target != null)
+            {
+                TargetPosition = new Vector3(
+                    target.transform.position.x + ModifierX,
+                    target.transform.position.y,
+                    target.transform.position.z + ModifierZ
+                );
+                Direction = (TargetPosition - transform.position).normalized;
+            }
         }
+        else if (TargetTag == "Enemy")
+        {
+            // Player fires in the direction they are facing
+            Tag = "Enemy";
+            Direction = Parent.transform.forward; // use player's forward direction
+        }
+
+        // Automatically destroy after 2 seconds
+        Invoke(nameof(SelfDestroy), 2f);
     }
-    
+
+    private void SelfDestroy()
+    {
+        Destroy(gameObject);
+    }
 }
