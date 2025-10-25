@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float SafetyDistance;
     public float TimeBetweenShots; //will pass to towards the player
     [SerializeField] private GameObject Projectiles;
-    [SerializeField] private float RotationSpeed = 5f; 
+    [SerializeField] private float RotationSpeed = 30f; 
 
     // Targets
     private Transform Player;
@@ -65,6 +65,14 @@ public class EnemyAI : MonoBehaviour
         else
         {
             shoot();
+            Vector3 moveDir = (Player.position - transform.position).normalized;
+
+            // Rotate toward player
+            if (moveDir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+            }
         }
     }
 
@@ -109,9 +117,25 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time > NextShotTime)
         {
-            GameObject projectileInstance = Instantiate(Projectiles, transform.position, Quaternion.identity);
+            // Always rotate to face the player, even while shooting
+            Vector3 directionToPlayer = (Player.position - transform.position).normalized;
+            if (directionToPlayer != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+            }
+
+            // Calculate a spawn point slightly in front of the enemy
+            float spawnDistance = 1.0f; // adjust depending on enemy size
+            Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
+
+            // Instantiate the projectile facing the same direction as the enemy
+            GameObject projectileInstance = Instantiate(Projectiles, spawnPosition, transform.rotation);
+
+            // Initialize the projectile
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
             projectile.Init("Player", gameObject);
+
             NextShotTime = Time.time + TimeBetweenShots;
         }
     }

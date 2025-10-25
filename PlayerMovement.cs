@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     private float dashTimer = 0f;
     private float dashSpeed = 1f;
+
+    static public float lifePoints = 5f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -47,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && dashTimer<=-0.5)
         {
             dashSpeed = 5f;
-            dashTimer = 0.1f;
+            dashTimer = 0.035f;
         }
         if(dashTimer <= 0)
         {

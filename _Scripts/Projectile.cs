@@ -26,11 +26,21 @@ public class Projectile : MonoBehaviour
         transform.position += Direction * ProjectileSpeed * Time.deltaTime;
     }
 
+    private void OnCollisionEnter(Collision collider)
+    {
+        // Destroy projectile if it hits its intended target
+        if (collider.collider.CompareTag(Tag))
+        {
+            PlayerMovement.lifePoints -= 1;
+            Destroy(gameObject);
+        }
+    }
     private void OnTriggerEnter(Collider collider)
     {
         // Destroy projectile if it hits its intended target
         if (collider.CompareTag(Tag))
         {
+            
             Destroy(gameObject);
         }
     }
