@@ -20,8 +20,10 @@ public class EnemyAI : MonoBehaviour
     private int CurrentPointIndex;
 
     //Variables for wandering behavior
-    private int[] direction;
+    private int[] direction = new int[4];
     private Vector3 TargetDirection;
+    private bool HasTarget;
+    private bool IsWaiting;
     private float DistanceModifierX;
     private float DistanceModifierZ;
 
@@ -75,7 +77,7 @@ public class EnemyAI : MonoBehaviour
 
     private void wandering(int dir)
     {
-        //move in one direction
+        /*//move in one direction
         if (dir == 0)//Up
         {
             DistanceModifierZ = 10;
@@ -100,7 +102,7 @@ public class EnemyAI : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, TargetDirection, EnemySpeed * Time.deltaTime);
 
         //wait 
-        StartCoroutine(WaitBeforeNextPoint());
+        //StartCoroutine(WaitBeforeNextPoint());
         //if collision move to the other direction 
         if (CurrentPointIndex + 1 >= 4)
         {
@@ -109,6 +111,22 @@ public class EnemyAI : MonoBehaviour
         else
         {
             CurrentPointIndex++;
+        }*/
+        if (!HasTarget)
+        {
+            if (dir == 0) TargetDirection = transform.position + Vector3.forward * 10;
+            if (dir == 1) TargetDirection = transform.position + Vector3.right * 10;
+            if (dir == 2) TargetDirection = transform.position + Vector3.back * 10;
+            if (dir == 3) TargetDirection = transform.position + Vector3.left * 10;
+            HasTarget = true;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, TargetDirection, EnemySpeed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, TargetDirection) < 0.2f)
+        {
+            HasTarget = false;
+            StartCoroutine(WaitAndChooseNextDirection());
         }
     }
 
@@ -163,7 +181,13 @@ public class EnemyAI : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // Wait 1 second
     }
-
+    private IEnumerator WaitAndChooseNextDirection()
+    {
+        IsWaiting = true;
+        yield return new WaitForSeconds(2f);
+        CurrentPointIndex = (CurrentPointIndex + 1) % 4;
+        IsWaiting = false;
+    }
 
 
 }
