@@ -3,68 +3,64 @@ using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
-    //Variables to set up the enemy
+    // Enemy setup
     [SerializeField] private float EnemySpeed;
     [SerializeField] private float MinimumDistance;
     [SerializeField] private float SafetyDistance;
     [SerializeField] private float TimeBetweenShots;
     [SerializeField] private GameObject Projectiles;
+    [SerializeField] private float RotationSpeed = 5f; // new
 
-    //Variables to Set up targets  
+    // Targets
     private Transform Player;
 
-    private float WaitTime;
     private float DistanceFromPlayer;
     private float NextShotTime;
     private int CurrentPointIndex;
 
-    //Variables for wandering behavior
+    // Wandering behavior
     private int[] direction = new int[4];
     private Vector3 TargetDirection;
     private bool HasTarget;
     private bool IsWaiting;
-    private float DistanceModifierX;
-    private float DistanceModifierZ;
-
-    Transform EnemyTransform;
-    Transform PlayerTransform;
-    Rigidbody EnemyRb;
 
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        direction[0] = 0;//Up
-        direction[1] = 1;//Right
-        direction[2] = 2;//Down
-        direction[3] = 3;//Left
+        direction[0] = 0; // Up
+        direction[1] = 1; // Right
+        direction[2] = 2; // Down
+        direction[3] = 3; // Left
     }
 
-    // Update is called once per frame
     void Update()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
-        //Debug.Log(DistanceFromPlayer);
 
         if (DistanceFromPlayer < MinimumDistance)
         {
-            //chase if the player is too close to the enemy
             chase();
-
         }
         else
-        {   //if the player goes far away, return to wandering
+        {
             wandering(direction[CurrentPointIndex]);
-            Debug.Log(direction);
         }
     }
 
     private void chase()
     {
-        //Debug.Log("Is chasing");
         if (Vector3.Distance(transform.position, Player.position) > SafetyDistance)
         {
-            //Chase the player and stop to choose at the safety distance
-            transform.position = Vector3.MoveTowards(transform.position, Player.position, EnemySpeed * Time.deltaTime);
+            Vector3 moveDir = (Player.position - transform.position).normalized;
+
+            // Rotate toward player
+            if (moveDir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(moveDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+            }
+
+            transform.position += moveDir * EnemySpeed * Time.deltaTime;
         }
         else
         {
@@ -83,6 +79,15 @@ public class EnemyAI : MonoBehaviour
             HasTarget = true;
         }
 
+        Vector3 moveDir = (TargetDirection - transform.position).normalized;
+
+        // Rotate toward movement direction
+        if (moveDir != Vector3.zero)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(moveDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, TargetDirection, EnemySpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, TargetDirection) < 0.2f)
@@ -94,9 +99,9 @@ public class EnemyAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            CurrentPointIndex++;
+            CurrentPointIndex = (CurrentPointIndex + 1) % 4;
         }
     }
 
@@ -111,17 +116,11 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitBeforeNextPoint()
-    {
-        yield return new WaitForSeconds(2f); // Wait 1 second
-    }
     private IEnumerator WaitAndChooseNextDirection()
     {
         IsWaiting = true;
         yield return new WaitForSeconds(2f);
-        CurrentPointIndex = (CurrentPointIndex + 1) % 4;
+        CurrentPointIndex = Random.Range(0, 4); // optional: randomize direction
         IsWaiting = false;
     }
-
-
 }
