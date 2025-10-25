@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
 
     //Variables to Set up targets  
     //[SerializeField] Transform[] PatrolPoint;
-    public Transform Player;
+    private Transform Player;
 
     private float WaitTime;
     private float DistanceFromPlayer;
