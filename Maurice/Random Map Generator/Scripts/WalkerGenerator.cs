@@ -22,7 +22,10 @@ public class WalkerGenerator : MonoBehaviour
 
     [Header("Decorations")]
     public GameObject wallObject;
-    public GameObject treePrefab;
+    public GameObject treePrefab1;
+    public GameObject treePrefab2;
+    public GameObject treePrefab3;
+    public GameObject treePrefab4;
     [Range(0f, 1f)] public float TreeDensity = 0.1f;
     [Min(0)] public int TreeStreetBuffer = 1;     // distance from Street
     [Min(0)] public int TreeSidewalkBuffer = 0;   // distance from SideWalk (set 1+ to keep off sidewalks)
@@ -312,7 +315,7 @@ public class WalkerGenerator : MonoBehaviour
     }
     void PlaceTrees()
     {
-        if (!treePrefab || !parentTransform) return;
+        if (!treePrefab4 || !treePrefab3 || !treePrefab2 || !treePrefab1 || !parentTransform) return;
 
         // Track where we’ve already placed trees to enforce TreeTreeBuffer
         bool[,] hasTree = new bool[MapWidth, MapHeight];
@@ -356,9 +359,9 @@ public class WalkerGenerator : MonoBehaviour
                 float jx = (float)(rnd.NextDouble() * 2 - 1) * TreeJitterXZ.x;
                 float jz = (float)(rnd.NextDouble() * 2 - 1) * TreeJitterXZ.y;
                 worldPos += new Vector3(jx, 0f, jz);
-
-                var go = Instantiate(treePrefab, worldPos, Quaternion.identity, parentTransform);
-
+                GameObject[] treePrefabs = { treePrefab1, treePrefab2, treePrefab3, treePrefab4 };
+                GameObject prefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
+                var go = Instantiate(prefab, worldPos, Quaternion.identity, parentTransform);
                 // Random rotation/scale
                 go.transform.Rotate(0f, rnd.Next(0, 360), 0f);
                 float s = Mathf.Lerp(TreeScaleRange.x, TreeScaleRange.y, (float)rnd.NextDouble());
