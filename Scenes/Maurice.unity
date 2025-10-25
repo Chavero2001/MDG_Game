@@ -165,6 +165,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 127911271}
+  volume: {fileID: 533069419}
+  baseIntensity: 0.6
+  useLifePoints: 1
+  lifeScale: 20
 --- !u!1 &96336204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,7 +1689,7 @@ GameObject:
   - component: {fileID: 3748873922863249364}
   m_Layer: 0
   m_Name: Alien
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
