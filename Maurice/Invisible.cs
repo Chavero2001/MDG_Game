@@ -1,5 +1,6 @@
 using UnityEngine;
 
+<<<<<<< HEAD
 [RequireComponent(typeof(Renderer))]
 public class Invisible : MonoBehaviour
 {
@@ -50,6 +51,31 @@ public class Invisible : MonoBehaviour
                 c.a = inRange ? 0.5f : 1f;
                 mat.SetColor(colorProp, c);
             }
+=======
+public class Invisible : MonoBehaviour
+{
+    public MeshRenderer meshRenderer;
+    public float radius = 5f;
+
+    void Start()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null || meshRenderer == null) return;
+
+        // Distance check (x/z only, ignoring height)
+        Vector3 playerPos = player.transform.position;
+        Vector3 objPos = transform.position;
+
+        float dx = playerPos.x - objPos.x;
+        float dz = playerPos.z - objPos.z;
+
+        if (Mathf.Abs(dx) <= radius && Mathf.Abs(dz) <= radius)
+        {
+            // Make 50% transparent
+            Color c = meshRenderer.material.color;
+            c.a = 0.5f;
+            meshRenderer.material.color = c;
+>>>>>>> 02539d8a2dbeef7b1aa6b8cb46d2fed282bf166b
         }
     }
 }

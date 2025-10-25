@@ -9,7 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6453092792435563704}
+<<<<<<< HEAD
   - component: {fileID: 9153931171377485474}
+=======
+  - component: {fileID: 8761187361348094600}
+>>>>>>> 02539d8a2dbeef7b1aa6b8cb46d2fed282bf166b
   m_Layer: 0
   m_Name: Tree1
   m_TagString: Untagged
@@ -33,7 +37,11 @@ Transform:
   - {fileID: 953294252597539217}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!114 &9153931171377485474
+=======
+--- !u!114 &8761187361348094600
+>>>>>>> 02539d8a2dbeef7b1aa6b8cb46d2fed282bf166b
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,9 +53,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f0a865132239a47bb6bd4456f42cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   radius: 2
   rend: {fileID: 8884396299645858397}
   targetMaterialIndices: 020000000300000004000000
+=======
+  meshRenderer: {fileID: 8884396299645858397}
+  radius: 5
+>>>>>>> 02539d8a2dbeef7b1aa6b8cb46d2fed282bf166b
 --- !u!1 &8299133152793518726
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,11 +125,19 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+<<<<<<< HEAD
   - {fileID: -6478536213147159724, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
   - {fileID: -3846018093981099296, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
   - {fileID: 2100000, guid: ccdd586d86d3c8643bb4c61f9e49df2f, type: 2}
   - {fileID: 2100000, guid: ccdd586d86d3c8643bb4c61f9e49df2f, type: 2}
   - {fileID: 2100000, guid: ccdd586d86d3c8643bb4c61f9e49df2f, type: 2}
+=======
+  - {fileID: -3846018093981099296, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
+  - {fileID: -6478536213147159724, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
+  - {fileID: 4874126678125670354, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
+  - {fileID: -876546973899608171, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
+  - {fileID: -6922793697723135513, guid: aca6824a9db1eff478ef46a0c3cd0a12, type: 3}
+>>>>>>> 02539d8a2dbeef7b1aa6b8cb46d2fed282bf166b
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

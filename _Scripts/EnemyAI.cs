@@ -94,11 +94,17 @@ public class EnemyAI : MonoBehaviour
                 CurrentPointIndex++;
             }
 
-            // Optional: small pause before moving to next point
-            // StartCoroutine(WaitBeforeNextPoint());
+            Debug.Log("PatrolPointAchieved");
+            //Small pause before moving to next point
+            StartCoroutine(WaitBeforeNextPoint());
         }
     }
 
-    
+    private IEnumerator WaitBeforeNextPoint()
+    {
+        yield return new WaitForSeconds(1f); // Wait 1 second
+    }
+
+
 
 }
