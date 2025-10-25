@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         Vector3 inputDir = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-        Vector3 moveDir = transform.TransformDirection(inputDir);
+        Vector3 moveDir = inputDir;//transform.TransformDirection(inputDir);
         Vector3 movementVelocity = moveDir * moveSpeed;
         rb.linearVelocity = movementVelocity;
     }
