@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8038534590820482856
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.4918895
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.5040853
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126006174173280837, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: Projectiles
+      value: 
+      objectReference: {fileID: 8072762461648089688, guid: 7e2aa10d3ba15024ea04f3e9b29a878a, type: 3}
+    - target: {fileID: 7746073621355908571, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Name
+      value: OfficeWorker Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
