@@ -27,6 +27,11 @@ public class EnemyAI : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         Debug.Log(PatrolPoint);
+        //Debug.Log(PatrolPoint);
+        direction[0] = 0;//Up
+        direction[1] = 1;//Right
+        direction[2] = 2;//Down
+        direction[3] = 3;//Left
     }
 
     // Update is called once per frame
@@ -44,6 +49,10 @@ public class EnemyAI : MonoBehaviour
         else
         {   //if the player goes far away, return to patrol
             patrol();
+        {   //if the player goes far away, return to wandering
+            //patrol(); //patrol replaced by wandering
+            wandering(direction[CurrentPointIndex]);
+            Debug.Log(direction);
         }
     }
 
