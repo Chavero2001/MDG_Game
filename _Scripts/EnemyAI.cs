@@ -11,8 +11,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject Projectiles;
 
     //Variables to Set up targets  
-    [SerializeField] Transform[] PatrolPoint;
-    public Transform Player;
+    //[SerializeField] Transform[] PatrolPoint;
+    private Transform Player;
 
     private float WaitTime;
     private float DistanceFromPlayer;
@@ -150,7 +150,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void patrol()
+    /*private void patrol()
     {
         //Debug.Log("Is patrolling");
         // Distance to current patrol point
@@ -177,7 +177,7 @@ public class EnemyAI : MonoBehaviour
             //Small pause before moving to next point
             StartCoroutine(WaitBeforeNextPoint());
         }
-    }
+    }*/
 
     private IEnumerator WaitBeforeNextPoint()
     {
