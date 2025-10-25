@@ -12,7 +12,6 @@ public class Invisible : MonoBehaviour
 
     void Awake()
     {
-        if (rend == null) rend = GetComponent<Renderer>();
 
         // Clone only the chosen materials so they are unique to this object
         Material[] mats = rend.materials;

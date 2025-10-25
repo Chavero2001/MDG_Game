@@ -43,14 +43,14 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.84851885, b: 0.6924528, a: 1}
   m_Intensity: 3
   m_Range: 25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -83,7 +83,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -130,6 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1395508330403120456}
+  - component: {fileID: 3444078662717561650}
   m_Layer: 0
   m_Name: Lamp
   m_TagString: Untagged
@@ -153,6 +154,20 @@ Transform:
   - {fileID: 9136936466463362394}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3444078662717561650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5470392802914343191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e9ec524ad7625498f9e14b44d92257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 20
+  object_to_deactivate: {fileID: 6077688788330986237}
 --- !u!1 &6077688788330986237
 GameObject:
   m_ObjectHideFlags: 0

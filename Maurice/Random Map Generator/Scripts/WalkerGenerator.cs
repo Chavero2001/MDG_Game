@@ -30,6 +30,10 @@ public class WalkerGenerator : MonoBehaviour
     [Min(0)] public int TreeTreeBuffer = 2;
     public Vector2 TreeJitterXZ = new Vector2(0.2f, 0.2f);
     public Vector2 TreeScaleRange = new Vector2(0.9f, 1.15f);
+    public GameObject streetLampPrefab;
+    [Min(0f)] public float lampInwardBuffer = 0.5f; // how far to push lamp inwards
+    [Min(1)] public int lampEveryNthCorner = 1;          // 1 = every corner, 2 = every other, etc.
+    public bool orientLampOutward = true;
 
     [Header("Size")]
     public int MapWidth = 120;
@@ -108,6 +112,7 @@ public class WalkerGenerator : MonoBehaviour
 
         PushToTilemaps();
         PlaceTrees();
+        PlaceStreetLamps();
         if (Visualize) StartCoroutine(VisualizeTiles());
     }
 
@@ -362,6 +367,83 @@ public class WalkerGenerator : MonoBehaviour
                 hasTree[x, y] = true;
             }
         }
+    }
+    void PlaceStreetLamps()
+    {
+        if (!streetLampPrefab || !parentTransform) return;
+
+        int cornerIndex = 0;
+
+        for (int y = 0; y < MapHeight; y++)
+        {
+            for (int x = 0; x < MapWidth; x++)
+            {
+                if (!IsSidewalkCorner(x, y, out int dirX, out int dirY)) continue;
+
+                // Throttle: every Nth corner if you want fewer lamps
+                if ((cornerIndex++ % lampEveryNthCorner) != 0) continue;
+                Quaternion rot = Quaternion.identity;
+                // World position of the sidewalk corner tile
+                Vector3 worldPos = floorTileMap != null
+                ? floorTileMap.GetCellCenterWorld(new Vector3Int(x, y, 0))
+                : new Vector3(x + 0.5f, 0f, y + 0.5f);
+
+                // Get outward normal (points toward street)
+                Vector3 outward = new Vector3(-dirX, 0f, -dirY);
+
+                // Shift lamp inward (opposite of outward)
+                if (outward.sqrMagnitude > 0.5f)
+                {
+                    Vector3 inward = -outward.normalized;
+                    worldPos += inward * lampInwardBuffer;
+
+                    if (orientLampOutward)
+                        rot = Quaternion.LookRotation(outward, Vector3.up);
+                }
+
+
+                Instantiate(streetLampPrefab, worldPos, rot, parentTransform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// A sidewalk "corner" is a SideWalk tile that has exactly one SideWalk neighbor on X
+    /// and exactly one SideWalk neighbor on Y (an L turn, not a straight or T).
+    /// Returns the directions of the sidewalk branches in dirX (±1) and dirY (±1).
+    /// </summary>
+    bool IsSidewalkCorner(int x, int y, out int dirX, out int dirY)
+    {
+        dirX = 0; dirY = 0;
+
+        if (grid[x, y] != Cell.SideWalk) return false;
+
+        bool left = x > 0 && grid[x - 1, y] == Cell.SideWalk;
+        bool right = x + 1 < MapWidth && grid[x + 1, y] == Cell.SideWalk;
+        bool down = y > 0 && grid[x, y - 1] == Cell.SideWalk;
+        bool up = y + 1 < MapHeight && grid[x, y + 1] == Cell.SideWalk;
+
+        // Must have exactly one sidewalk neighbor on X and exactly one on Y
+        bool oneX = left ^ right;
+        bool oneY = down ^ up;
+        if (!(oneX && oneY)) return false;
+
+        // (Optional but useful) Ensure it's really a street corner:
+        // the outward diagonal should be Street. Compute the inside-corner normal first.
+        // Branch directions (along sidewalks):
+        dirX = right ? +1 : -1; // if right is true, branch goes +X; else it must be left -> -X
+        dirY = up ? +1 : -1; // if up is true, branch goes +Y; else it must be down -> -Y
+
+        // Outward diagonal is opposite of the inside corner: (-dirX, -dirY)
+        int ox = x - dirX;
+        int oy = y - dirY;
+        if (InBounds(ox, oy) && grid[ox, oy] != Cell.Street)
+        {
+            // If you want lamps even when the diagonal isn’t street, comment this out.
+            return false;
+        }
+
+        return true;
     }
 
 

@@ -444,7 +444,7 @@ PrefabInstance:
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: treePrefab
       value: 
-      objectReference: {fileID: 6582140275540766167, guid: e4e476c35c3cae84c9b56e3c3b4d9c79, type: 3}
+      objectReference: {fileID: 3355107209366080212, guid: 7634db215a7905f4cb1860ea61a30f1f, type: 3}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: wallObject
       value: 
@@ -465,6 +465,14 @@ PrefabInstance:
       propertyPath: floorTileMap
       value: 
       objectReference: {fileID: 1566049181}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: lampOffset.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: lampOffset.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: CorridorWidth
       value: 10
@@ -505,6 +513,14 @@ PrefabInstance:
       propertyPath: TreeStreetBuffer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: lampInwardBuffer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: streetLampPrefab
+      value: 
+      objectReference: {fileID: 5470392802914343191, guid: 0d7733c9362025443a92eed4c3de000a, type: 3}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: TreeBuildingBuffer
       value: 2
