@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
 
     //Tag for the projectile to search
     [SerializeField] private string Tag;
-    [SerializeField] private string QuotedTag;//Just for FindGameObject to work
+    //[SerializeField] private string QuotedTag;//Just for FindGameObject to work
     private void Start()
     {
         Target = GameObject.FindGameObjectWithTag(Tag);
