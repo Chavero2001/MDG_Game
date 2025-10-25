@@ -32,7 +32,6 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        Debug.Log(PatrolPoint);
         //Debug.Log(PatrolPoint);
         direction[0] = 0;//Up
         direction[1] = 1;//Right
