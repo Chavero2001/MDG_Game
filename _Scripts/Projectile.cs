@@ -30,11 +30,14 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         //transform.position = Vector3.MoveTowards(transform.position, TargetPosition, ProjectileSpeed * Time.deltaTime);
-        transform.position += Direction * ProjectileSpeed * Time.deltaTime;
-        /*if (transform.position == TargetPosition)
+        if (tag == "Player")//Projectile behavior if the enemy is spawing the projectile
         {
-            Destroy(gameObject);
-        }*/
+            transform.position += Direction * ProjectileSpeed * Time.deltaTime;
+        }
+        if (tag == "Enemy")//Projectile if player spawns the projectile
+        {
+            transform.position += gameObject.transform.position; 
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
