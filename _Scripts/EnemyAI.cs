@@ -127,8 +127,8 @@ public class EnemyAI : MonoBehaviour
 
             // Calculate a spawn point slightly in front of the enemy
             float spawnDistance = 1.0f; // adjust depending on enemy size
+     
             Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
-
             // Instantiate the projectile facing the same direction as the enemy
             GameObject projectileInstance = Instantiate(Projectiles, spawnPosition, transform.rotation);
 
