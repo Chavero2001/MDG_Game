@@ -6,13 +6,13 @@ public class Invisible : MonoBehaviour
     public float radius = 2.5f;
 
     public Renderer rend;
-
+    public GameObject player;
     [Tooltip("Material slots (indices) that should toggle visibility")]
     public int[] targetMaterialIndices;
 
     void Awake()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
         // Clone only the chosen materials so they are unique to this object
         Material[] mats = rend.materials;
         foreach (int idx in targetMaterialIndices)
@@ -27,7 +27,7 @@ public class Invisible : MonoBehaviour
 
     void Update()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
         if (player == null || rend == null) return;
 
         // Distance check (XZ plane only)

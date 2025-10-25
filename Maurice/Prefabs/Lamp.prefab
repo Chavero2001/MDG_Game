@@ -166,8 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e9ec524ad7625498f9e14b44d92257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 20
+  radius: 35
   object_to_deactivate: {fileID: 6077688788330986237}
+  player: {fileID: 0}
 --- !u!1 &6077688788330986237
 GameObject:
   m_ObjectHideFlags: 0
