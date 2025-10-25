@@ -316,6 +316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 5829579659246339511}
+  volume: {fileID: 0}
+  baseIntensity: 0.6
+  useLifePoints: 1
+  lifeScale: 20
 --- !u!1 &5679542081015994317
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e006575aea364d9ef1801034bd67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  projectilePrefab: {fileID: 7291365461315113828, guid: a380de0615b503aa9bf0517873a1184e, type: 3}
+  projectilePrefab: {fileID: 6286105892844432141, guid: 410a83ed91516a045a99e8053d1fe21a, type: 3}
 --- !u!114 &1788804101108876788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +641,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 70ede492e87d86702a6bdcb47a0e4e51, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3018b71841400da49a230351fdcf13c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

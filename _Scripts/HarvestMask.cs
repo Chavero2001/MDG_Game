@@ -31,6 +31,24 @@ public class HarvestMask : MonoBehaviour
         } else {
             arrowSpriteRenderer.enabled = false;
         }
+
+        if (Input.GetButtonDown("Fire2")) {
+            if (ClosestEnemy != null) {
+                // Teleport to the Closest Enemy
+                Player.transform.position = ClosestEnemy.transform.position;
+
+                // Transfer the stats
+                EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
+                GameObject enemyProjectile = enemyAi.Projectiles;
+                PlayerAttack playerAttack = Player.GetComponent<PlayerAttack>();
+                playerAttack.projectilePrefab = enemyProjectile;
+
+                // Destroy the Closest Enemy
+                EnemiesInRange.Remove(ClosestEnemy);
+                Destroy(ClosestEnemy);
+                ClosestEnemy = null;
+            }
+        }
     }
 
 

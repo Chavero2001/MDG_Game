@@ -8,7 +8,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float MinimumDistance;
     [SerializeField] private float SafetyDistance;
     public float TimeBetweenShots; //will pass to towards the player
-    [SerializeField] private GameObject Projectiles;
+    [SerializeField] public GameObject Projectiles;
     [SerializeField] private float RotationSpeed = 30f; 
 
     // Targets
