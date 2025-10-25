@@ -4,12 +4,12 @@ using System.Collections;
 public class EnemyAI : MonoBehaviour
 {
     // Enemy setup
-    [SerializeField] private float EnemySpeed;
+    public float EnemySpeed; //will pass to towards the player
     [SerializeField] private float MinimumDistance;
     [SerializeField] private float SafetyDistance;
-    [SerializeField] private float TimeBetweenShots;
+    public float TimeBetweenShots; //will pass to towards the player
     [SerializeField] private GameObject Projectiles;
-    [SerializeField] private float RotationSpeed = 5f; // new
+    [SerializeField] private float RotationSpeed = 5f; 
 
     // Targets
     private Transform Player;
