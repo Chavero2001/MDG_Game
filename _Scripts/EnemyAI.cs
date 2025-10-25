@@ -11,7 +11,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject Projectiles;
 
     //Variables to Set up targets  
-    //[SerializeField] Transform[] PatrolPoint;
     private Transform Player;
 
     private float WaitTime;
@@ -34,7 +33,6 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        //Debug.Log(PatrolPoint);
         direction[0] = 0;//Up
         direction[1] = 1;//Right
         direction[2] = 2;//Down
@@ -55,7 +53,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {   //if the player goes far away, return to wandering
-            //patrol(); //patrol replaced by wandering
             wandering(direction[CurrentPointIndex]);
             Debug.Log(direction);
         }
@@ -77,41 +74,6 @@ public class EnemyAI : MonoBehaviour
 
     private void wandering(int dir)
     {
-        /*//move in one direction
-        if (dir == 0)//Up
-        {
-            DistanceModifierZ = 10;
-            DistanceModifierX = 0;
-        }
-        if (dir == 1)//Right
-        {
-            DistanceModifierZ = 0;
-            DistanceModifierX = 10;
-        }
-        if (dir == 2)//Down
-        {
-            DistanceModifierZ = -10;
-            DistanceModifierX = 0;
-        }
-        if (dir == 3)//Left
-        {
-            DistanceModifierZ = 0;
-            DistanceModifierX = -10;
-        }
-        TargetDirection = new Vector3(transform.position.x + DistanceModifierX, transform.position.y, transform.position.z + DistanceModifierZ);
-        transform.position = Vector3.MoveTowards(transform.position, TargetDirection, EnemySpeed * Time.deltaTime);
-
-        //wait 
-        //StartCoroutine(WaitBeforeNextPoint());
-        //if collision move to the other direction 
-        if (CurrentPointIndex + 1 >= 4)
-        {
-            CurrentPointIndex = 0;
-        }
-        else
-        {
-            CurrentPointIndex++;
-        }*/
         if (!HasTarget)
         {
             if (dir == 0) TargetDirection = transform.position + Vector3.forward * 10;
@@ -142,42 +104,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time > NextShotTime)
         {
-            //Debug.Log("Is Shooting");
             GameObject projectileInstance = Instantiate(Projectiles, transform.position, Quaternion.identity);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
             projectile.Init("Player", gameObject);
             NextShotTime = Time.time + TimeBetweenShots;
         }
     }
-
-    /*private void patrol()
-    {
-        //Debug.Log("Is patrolling");
-        // Distance to current patrol point
-        float distanceToPoint = Vector3.Distance(transform.position, PatrolPoint[CurrentPointIndex].position);
-
-        if (distanceToPoint > 0.2f) // Allow some margin instead of exact position match
-        {
-            Debug.Log(distanceToPoint);
-            transform.position = Vector3.MoveTowards(transform.position, PatrolPoint[CurrentPointIndex].position, EnemySpeed * Time.deltaTime);
-        }
-        else
-        {
-            // Move to next patrol point
-            if (CurrentPointIndex + 1 >= PatrolPoint.Length)
-            {
-                CurrentPointIndex = 0;
-            }
-            else
-            {
-                CurrentPointIndex++;
-            }
-
-            Debug.Log("PatrolPointAchieved");
-            //Small pause before moving to next point
-            StartCoroutine(WaitBeforeNextPoint());
-        }
-    }*/
 
     private IEnumerator WaitBeforeNextPoint()
     {
