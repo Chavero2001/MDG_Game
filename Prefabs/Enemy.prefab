@@ -65,6 +65,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,6 +88,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -118,10 +121,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6715332332630881989}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -154,13 +157,8 @@ MonoBehaviour:
   MinimumDistance: 15
   SafetyDistance: 10
   TimeBetweenShots: 0.5
-  Projectiles: {fileID: 218670679693332553, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
-  PatrolPoint:
-  - {fileID: 6111773535567039421}
-  - {fileID: 6206396780479410983}
-  - {fileID: 1805530810759063783}
-  - {fileID: 6823368090885666743}
-  Player: {fileID: 0}
+  Projectiles: {fileID: 8072762461648089688, guid: c46394abfa085a6a5b2be364fa7d9177, type: 3}
+  RotationSpeed: 5
 --- !u!114 &6446433013480855853
 MonoBehaviour:
   m_ObjectHideFlags: 0
