@@ -11,16 +11,13 @@ public class Projectile : MonoBehaviour
     public GameObject Target;
 
     //Tag for the projectile to search
-    [SerializeField] private string Tag;
+    [SerializeField] public string Tag;
     [SerializeField] private float ModifierX;
     [SerializeField] private float ModifierZ;
     //[SerializeField] private string QuotedTag;//Just for FindGameObject to work
     private void Start()
     {
-        Target = GameObject.FindGameObjectWithTag(Tag);
-        TargetPosition = new Vector3(Target.transform.position.x* ModifierX, Target.transform.position.y, Target.transform.position.z* ModifierZ);
-
-        Invoke("Destroy", 2.0f);
+        Init(null);
     }
 
     private void Destroy() {
@@ -42,6 +39,19 @@ public class Projectile : MonoBehaviour
         if (collider.gameObject.tag == Tag)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void Init(string tag) {
+        if (tag != null && tag != "") {
+            Tag = tag;
+        }
+
+        if (Tag != null && Tag != "") {
+            Target = GameObject.FindGameObjectWithTag(Tag);
+            TargetPosition = new Vector3(Target.transform.position.x* ModifierX, Target.transform.position.y, Target.transform.position.z* ModifierZ);
+
+            Invoke("Destroy", 2.0f);
         }
     }
     

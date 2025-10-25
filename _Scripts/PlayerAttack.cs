@@ -18,8 +18,9 @@ public class PlayerAttack : MonoBehaviour
         {
             Vector3 globalSpawnPosition = transform.position + transform.forward * spawnDistance ;
             Quaternion spawnRotation = Quaternion.identity;
-            Instantiate(projectilePrefab, globalSpawnPosition, spawnRotation);
-
+            GameObject projectileInstance = Instantiate(projectilePrefab, globalSpawnPosition, spawnRotation);
+            Projectile projectile = projectileInstance.GetComponent<Projectile>();
+            projectile.Init("Enemy");
         }
     }
 }
