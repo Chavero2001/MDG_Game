@@ -37,11 +37,15 @@ public class HarvestMask : MonoBehaviour
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
 
-                // Transfer the stats
+                // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
                 GameObject enemyProjectile = enemyAi.Projectiles;
                 PlayerAttack playerAttack = Player.GetComponent<PlayerAttack>();
+                PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+                // Copy the projectile
                 playerAttack.projectilePrefab = enemyProjectile;
+                // Copy the movement speed
+                playerMovement.moveSpeed = enemyAi.EnemySpeed;
 
                 // Destroy the Closest Enemy
                 EnemiesInRange.Remove(ClosestEnemy);
