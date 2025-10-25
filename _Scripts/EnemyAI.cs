@@ -49,10 +49,11 @@ public class EnemyAI : MonoBehaviour
         else
         {   //if the player goes far away, return to patrol
             patrol();
-        {   //if the player goes far away, return to wandering
-            //patrol(); //patrol replaced by wandering
-            wandering(direction[CurrentPointIndex]);
-            Debug.Log(direction);
+            {   //if the player goes far away, return to wandering
+                //patrol(); //patrol replaced by wandering
+                wandering(direction[CurrentPointIndex]);
+                Debug.Log(direction);
+            }
         }
     }
 
