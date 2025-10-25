@@ -9,7 +9,7 @@ public class HealthComponent : MonoBehaviour
        if (collision.gameObject.CompareTag("Projectile"))
         {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-            if (projectile.Parent != gameObject) {
+            if (projectile.Parent.tag != gameObject.tag) {
                 health -= projectile.Damage;
                 if (health <= 0) {
                     Destroy(gameObject);
