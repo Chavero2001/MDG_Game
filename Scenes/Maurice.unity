@@ -495,13 +495,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966409632}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14190046, y: -0, z: -0, w: 0.989881}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.2840153, y: 0, z: 0, w: 0.95881975}
+  m_LocalPosition: {x: 100, y: 20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 16.316, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 33, y: 0, z: 0}
 --- !u!114 &966409636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,44 +559,96 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4d261f2297bf7004b89d8ca9b0630209, type: 2}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: Grass
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d261f2297bf7004b89d8ca9b0630209, type: 2}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: Street
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7e7d7f112a4a445be296e0284eb976, type: 2}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: MapWidth
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: SideWalk
+      value: 
+      objectReference: {fileID: 11400000, guid: c3addf118bd494b41b84848682a84a8f, type: 2}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: MapHeight
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: treePrefab
+      value: 
+      objectReference: {fileID: 3502384465807288765, guid: 164087a8c387df340b7633d3221ef782, type: 3}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: wallObject
       value: 
       objectReference: {fileID: 3502384465807288765, guid: 41510b408f0da2647ad84ec6b727afdd, type: 3}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: AlleyChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: wallTileMap
       value: 
       objectReference: {fileID: 231115613}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: ParkAttempts
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: floorTileMap
       value: 
       objectReference: {fileID: 1566049181}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: CorridorWidth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: FillPercentage
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: GenerationMode
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: CourtyardChance
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: parentTransform
       value: 
       objectReference: {fileID: 231115611}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: BuildingAttempts
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: GridJitterChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: RoomSizeMinMax.x
-      value: 8
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: RoomSizeMinMax.y
-      value: 24
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: TreeStreetBuffer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: TreeBuildingBuffer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
+      propertyPath: TreeSidewalkBuffer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: CorridorJitterChance
