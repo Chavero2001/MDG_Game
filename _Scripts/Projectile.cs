@@ -10,11 +10,12 @@ public class Projectile : MonoBehaviour
 
     public GameObject Target;
 
+    private Vector3 Direction; 
+
     //Tag for the projectile to search
     [SerializeField] public string Tag;
     [SerializeField] private float ModifierX;
     [SerializeField] private float ModifierZ;
-    //[SerializeField] private string QuotedTag;//Just for FindGameObject to work
 
     public GameObject Parent;
 
@@ -28,8 +29,8 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, TargetPosition, ProjectileSpeed * Time.deltaTime);
-
+        //transform.position = Vector3.MoveTowards(transform.position, TargetPosition, ProjectileSpeed * Time.deltaTime);
+        transform.position += Direction * ProjectileSpeed * Time.deltaTime;
         /*if (transform.position == TargetPosition)
         {
             Destroy(gameObject);
@@ -52,6 +53,7 @@ public class Projectile : MonoBehaviour
             Target = GameObject.FindGameObjectWithTag(Tag);
             TargetPosition = new Vector3(Target.transform.position.x* ModifierX, Target.transform.position.y, Target.transform.position.z* ModifierZ);
 
+            Direction = (TargetPosition - transform.position).normalized;
             Invoke("Destroy", 2.0f);
         }
     }
