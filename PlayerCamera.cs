@@ -4,6 +4,10 @@ public class PlayerCamera : MonoBehaviour
 {
     public Transform cameraPosition;
 
+    void Start() {
+        transform.position = new Vector3(cameraPosition.position.x, cameraPosition.position.y, cameraPosition.position.z);
+    }
+
     void Update()
     {
         if (cameraPosition.position.z >= 9 && cameraPosition.position.z <= 140)
