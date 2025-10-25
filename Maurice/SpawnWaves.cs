@@ -4,8 +4,10 @@ using UnityEngine;
 public class SpawnWaves : MonoBehaviour
 {
     [Header("Enemy")]
-    [SerializeField] private GameObject enemyPrefab;   // Must have tag "Enemy"
-    [SerializeField] private int enemiesPerWave = 10;
+    [SerializeField] private GameObject enemyPrefab1;   // Must have tag "Enemy"
+    [SerializeField] private GameObject enemyPrefab2;
+    [SerializeField] private GameObject enemyPrefab3;
+    [SerializeField] private int startingEnemiesWave = 10;
     [SerializeField] private float timeBetweenSpawns = 0.05f; // small delay so they don't overlap exactly
 
     [Header("Spawn Points (size = 4)")]
@@ -17,7 +19,8 @@ public class SpawnWaves : MonoBehaviour
 
     private bool isSpawning = false;
     private float checkTimer = 0f;
-
+    private float wave=1f;
+    public float waveIncrement = 1f;
     private void Start()
     {
         // Initial wave
@@ -38,6 +41,7 @@ public class SpawnWaves : MonoBehaviour
             // If all were cleared, start next wave
             if (alive == 0)
             {
+                wave += 0.5f;
                 StartCoroutine(SpawnWave());
             }
         }
@@ -45,7 +49,7 @@ public class SpawnWaves : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
-        if (enemyPrefab == null)
+        if (enemyPrefab1 == null)
         {
             Debug.LogError("[SpawnWaves] Enemy Prefab is not assigned.");
             yield break;
@@ -58,12 +62,14 @@ public class SpawnWaves : MonoBehaviour
 
         isSpawning = true;
 
-        for (int i = 0; i < enemiesPerWave; i++)
+        for (int i = 0; i < startingEnemiesWave*wave; i++)
         {
             Transform p = spawnPoints[Random.Range(0, spawnPoints.Length)];
             if (p != null)
             {
-                Instantiate(enemyPrefab, p.position, p.rotation);
+                GameObject[] treePrefabs = { enemyPrefab1, enemyPrefab2, enemyPrefab3};
+                GameObject prefab = treePrefabs[Random.Range(0, treePrefabs.Length)];
+                Instantiate(prefab, p.position, p.rotation);
             }
 
             if (timeBetweenSpawns > 0f)
