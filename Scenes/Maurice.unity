@@ -671,7 +671,7 @@ MonoBehaviour:
   enemyPrefab2: {fileID: 7593417178403302026, guid: bae6221a1af5ffc4098032db87a34e66, type: 3}
   enemyPrefab3: {fileID: 356075147842171635, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
   startingEnemiesWave: 10
-  timeBetweenSpawns: 0.05
+  timeBetweenSpawns: 0.5
   spawnPoints:
   - {fileID: 895359462}
   - {fileID: 272584876}
@@ -1366,6 +1366,7 @@ Transform:
   - {fileID: 127911271}
   - {fileID: 6293323132717277659}
   - {fileID: 5039910501433927184}
+  - {fileID: 7051357326247634648}
   - {fileID: 8320990993907274051}
   m_Father: {fileID: 1011036173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1428,7 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e006575aea364d9ef1801034bd67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  projectilePrefab: {fileID: 6286105892844432141, guid: 410a83ed91516a045a99e8053d1fe21a, type: 3}
+  projectilePrefab: {fileID: 3197248792452416942, guid: 47eb525fad6419444a0b2ee38d320824, type: 3}
   audioSource: {fileID: 50331700}
 --- !u!82 &857798073
 AudioSource:
@@ -3245,7 +3246,7 @@ MonoBehaviour:
   Player: {fileID: 857798067}
   MaskAttachement: {fileID: 4494912557988359168}
   OfficeWorkerMask: {fileID: 8660925197674679289}
-  BlueCollarWorkerMask: {fileID: 8660925197674679289}
+  BlueCollarWorkerMask: {fileID: 7678818287981362274}
   audioSource: {fileID: 8495084809072668536}
 --- !u!4 &751638554494185602
 Transform:
@@ -9544,6 +9545,14 @@ Transform:
   - {fileID: 2461173455300428686}
   m_Father: {fileID: 2085361879373575769}
   m_LocalEulerAnglesHint: {x: 0.000044046217, y: -0.005236746, z: -0.000076401455}
+--- !u!33 &6229797379191187837
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7678818287981362274}
+  m_Mesh: {fileID: -8395591001987604910, guid: b08f5c042d32b7447be187c10cbb3793, type: 3}
 --- !u!4 &6231319148996333665
 Transform:
   m_ObjectHideFlags: 0
@@ -10373,6 +10382,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &7051357326247634648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7678818287981362274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.684, z: 0.854}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 857798068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7055014377840628005
 GameObject:
   m_ObjectHideFlags: 0
@@ -11163,6 +11187,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &7678818287981362274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7051357326247634648}
+  - component: {fileID: 6229797379191187837}
+  - component: {fileID: 8183138363550293431}
+  m_Layer: 0
+  m_Name: Homeless_Person_Mask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &7679105785605439206
 GameObject:
   m_ObjectHideFlags: 0
@@ -11727,6 +11769,54 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!23 &8183138363550293431
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7678818287981362274}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 5714400160619807739, guid: b08f5c042d32b7447be187c10cbb3793, type: 3}
+  - {fileID: 338028946633298426, guid: b08f5c042d32b7447be187c10cbb3793, type: 3}
+  - {fileID: -4523619778181318868, guid: b08f5c042d32b7447be187c10cbb3793, type: 3}
+  - {fileID: 6208713299186302895, guid: b08f5c042d32b7447be187c10cbb3793, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8186913140815634780
 GameObject:
   m_ObjectHideFlags: 0
