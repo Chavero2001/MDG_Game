@@ -40,9 +40,11 @@ public class GameManager : MonoBehaviour
     // Optional: reset for a new run
     public void ResetRun()
     {
+        Debug.Log($"ResetRun called on instance {GetInstanceID()}. Before: time={TimePlayed}, enemies={EnemiesDestroyed}, waves={WavesSurvived}");
         TimePlayed = 0f;
         EnemiesDestroyed = 0;
         WavesSurvived = 0;
         IsRunning = true;
+        Debug.Log($"After: time={TimePlayed}, enemies={EnemiesDestroyed}, waves={WavesSurvived}");
     }
 }
