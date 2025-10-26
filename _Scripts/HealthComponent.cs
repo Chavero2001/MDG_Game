@@ -5,6 +5,10 @@ public class HealthComponent : MonoBehaviour
     public int health = 3;
     static public bool IsDeath;
 
+    private void Start()
+    {
+        IsDeath = false;
+    }
     private void OnCollisionEnter(Collision collision)
     {
        if (collision.gameObject.CompareTag("Projectile"))
