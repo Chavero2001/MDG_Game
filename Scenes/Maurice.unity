@@ -174,7 +174,7 @@ MonoBehaviour:
   minimapRect: {fileID: 1855353661}
   iconParent: {fileID: 1855353661}
   enemyDotPrefab: {fileID: 5555738123494426213, guid: 9d2ce32a78237944a8c9441a11f8ffb6, type: 3}
-  playerDotPrefab: {fileID: 0}
+  playerDotPrefab: {fileID: 8478637876048397306, guid: e0f27b3f604d7b54c982df509bbc2b4d, type: 3}
   enemyTag: Enemy
   playerTag: Player
   refreshEvery: 1
