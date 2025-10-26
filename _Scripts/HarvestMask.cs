@@ -9,6 +9,8 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
+    [SerializeField] private GameObject OfficeWorkerPrefab;
+    [SerializeField] private GameObject BlueCollarWorkerPrefab;
 
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
@@ -61,18 +63,31 @@ public class HarvestMask : MonoBehaviour
                 // Copy the movement speed
                 playerMovement.moveSpeed = enemyAi.EnemySpeed;
 
+                // Make the appropriate mask visible
+                HideAllMasks();
+                if (enemyAi.enemyType == EnemyAI.EnemyType.OfficeWorker) {
+                    MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
+                    officeWorkerMask.enabled = true;
+                } else {
+                    MeshRenderer blueCollarWorkerMask = BlueCollarWorkerMask.GetComponent<MeshRenderer>();
+                    blueCollarWorkerMask.enabled = true;
+                }
+
                 // Destroy the Closest Enemy
                 EnemiesInRange.Remove(ClosestEnemy);
                 Destroy(ClosestEnemy);
                 ClosestEnemy = null;
-
-                // Make the appropriate mask visible
-                MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
-                officeWorkerMask.enabled = true;
             }
         }
     }
 
+
+    private void HideAllMasks() {
+        MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
+        officeWorkerMask.enabled = false;
+        MeshRenderer blueCollarWorkerMask = BlueCollarWorkerMask.GetComponent<MeshRenderer>();
+        blueCollarWorkerMask.enabled = false;
+    }
 
 
     private void OnTriggerEnter(Collider collider) {

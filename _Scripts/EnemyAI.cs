@@ -11,6 +11,13 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] public GameObject Projectiles;
     [SerializeField] private float RotationSpeed = 30f; 
 
+    public enum EnemyType {
+        OfficeWorker,
+        BlueCollarWorker
+    }
+
+    public EnemyType enemyType;
+
     // Targets
     private Transform Player;
 

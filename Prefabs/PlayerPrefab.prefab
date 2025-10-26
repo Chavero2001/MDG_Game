@@ -1546,6 +1546,8 @@ MonoBehaviour:
   MaskAttachement: {fileID: 5578153604142353427}
   OfficeWorkerMask: {fileID: 5514470326964476455}
   BlueCollarWorkerMask: {fileID: 4833207289034594673}
+  OfficeWorkerPrefab: {fileID: 356075147842171635, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
+  BlueCollarWorkerPrefab: {fileID: 277778023580146605, guid: e85e0aa604d561841abbe7193c73df6b, type: 3}
 --- !u!1 &1698667555594286995
 GameObject:
   m_ObjectHideFlags: 0
@@ -5324,7 +5326,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4833207289034594673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
