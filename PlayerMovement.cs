@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     public Camera playerCamera;
     public Vector3 LookDir;
-
+    public GameObject smoke;
     float horizontalInput;
     float verticalInput;
 
