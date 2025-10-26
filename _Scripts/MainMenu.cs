@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     [Header("UI Panels")]
     public GameObject CreditsPanel;
     [SerializeField] GameObject[] UFOs;
-
+    public AudioSource button;
     Scene scene;
 
     void Start()
@@ -19,8 +19,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        
-        
+
+        button.Play();
         Debug.Log("Moving to next scene");
         //GameManager.Instance.
         for (int i = 0; i < UFOs.Length; i++)
@@ -37,16 +37,19 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        button.Play();
         Debug.Log("Quit!");
         Application.Quit(); // does not quit in editor
     }
 
      public void ShowCredits()
     {
+        button.Play();
         CreditsPanel.SetActive(true);
     }
     public void HideCredits()
     {
+        button.Play();
         CreditsPanel.SetActive(false);
     }
 
