@@ -51,6 +51,8 @@ public class HarvestMask : MonoBehaviour
                 audioSource.Play();
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
+                GameManager.Instance.AddEnemyDestroyed();
+                GameManager.Instance.AddEnemyDestroyed();
 
                 // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
