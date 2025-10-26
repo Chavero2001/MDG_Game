@@ -7,11 +7,10 @@ public class MainMenu : MonoBehaviour
     [Header("UI Panels")]
     public GameObject CreditsPanel;
 
-
-
     public void PlayGame()
     {
-        SceneManager.LoadScene("MainGame"); // replace with your actual game scene name
+        Debug.Log("Moving to next scene");
+        SceneManager.LoadScene("Maurice"); // replace with your actual game scene name
     }
 
     public void QuitGame()
@@ -24,7 +23,6 @@ public class MainMenu : MonoBehaviour
     {
         CreditsPanel.SetActive(true);
     }
-
     public void HideCredits()
     {
         CreditsPanel.SetActive(false);
