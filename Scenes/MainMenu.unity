@@ -451,9 +451,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Credits\nMaurice Elkouby   Programmer\nEmilio Chavero       Programmer\nAdrien
-    Tremblay    Programmer\n                            3D Artist             \nLucas
-    Rasson 3D Artist      \n"
+  m_text: "Credits\n\nMaurice Elkouby       PROGRAMMER\nEmilio Chavero          
+    PROGRAMMER\nAdrien Tremblay        PROGRAMMER\n                             
+    3D ARTIST\nLucas Rasson             3D ARTIST          \u200E\nAndrea Chavero       
+    ARTIST                 \u200E\nOurania Voyatzis       PROGRAMMER\u200E "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
@@ -496,7 +497,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1930,8 +1931,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279750656
-  m_fontColor: {r: 0, g: 0.81568635, b: 0.09019608, a: 1}
+    rgba: 4278255397
+  m_fontColor: {r: 0.14418602, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2756,8 +2757,8 @@ RectTransform:
   m_GameObject: {fileID: 2106796204}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.8, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.38, y: 0.608, z: 0.76}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 304574809}
   - {fileID: 1348229612}
@@ -2781,14 +2782,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20392157, g: 0.47419184, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
