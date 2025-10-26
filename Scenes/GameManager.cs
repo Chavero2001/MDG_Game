@@ -5,9 +5,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public float TimePlayed { get; private set; } = 0f;
-    public int EnemiesDestroyed { get; private set; } = 0;
-    public int WavesSurvived { get; private set; } = 0;
-    public int FacesObtained { get; private set; } = 0;
+    public int EnemiesDestroyed { get; private set; } = 0; //To do
+    public int WavesSurvived { get; private set; } = 0;//To do
+    public int FacesObtained { get; private set; } = 0;//To do
     public bool IsRunning { get; private set; } = true; //Starts the time played
 
     void Awake()

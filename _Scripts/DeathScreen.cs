@@ -19,6 +19,7 @@ public class DeathScreen : MonoBehaviour
     {
         if (IsDeath ==  true)
         {
+            GameManager.Instance.EndRun();
             SceneManager.LoadScene(2);
         }
     }
