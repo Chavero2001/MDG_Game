@@ -1936,16 +1936,18 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5274611372669928308, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: -9097883258027286216, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: -7283141047884764157, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: 8267565915677969391, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: 6208713299186302895, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: 342783044450485548, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
-  - {fileID: -5866663363234917338, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
+  - {fileID: 342783044450485548, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: -9097883258027286216, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: -7283141047884764157, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: 8267565915677969391, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: -5866663363234917338, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: -5274611372669928308, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
+  - {fileID: -5866663363234917338, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1963,6 +1965,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1970,7 +1973,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8665494125664648517, guid: 14a797ae192bb4f4ba72f256836c22fc, type: 3}
+  m_Mesh: {fileID: -8665494125664648517, guid: c8d0ac77950ed1446809f371feb6abae, type: 3}
   m_Bones:
   - {fileID: 69826025984973824}
   - {fileID: 8819362827035079123}
