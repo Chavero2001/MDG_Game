@@ -13,7 +13,8 @@ public class EnemyAI : MonoBehaviour
 
     public enum EnemyType {
         OfficeWorker,
-        BlueCollarWorker
+        BlueCollarWorker,
+        GameDev
     }
 
     public EnemyType enemyType;
