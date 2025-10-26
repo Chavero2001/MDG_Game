@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float ModifierX = 0f; 
     [SerializeField] private float ModifierZ = 0f;
     [SerializeField] private float ModifierY = 1f;
+    [SerializeField] private float rotationSpeed = 0f;
     public GameObject Parent;
 
     private void Start()
@@ -25,6 +26,8 @@ public class Projectile : MonoBehaviour
     {
         // Move projectile in its stored direction
         transform.position += Direction * ProjectileSpeed * Time.deltaTime;
+        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+
     }
 
     private void OnCollisionEnter(Collision collider)
@@ -32,9 +35,10 @@ public class Projectile : MonoBehaviour
         // Destroy projectile if it hits its intended target
         if (collider.collider.CompareTag(Tag))
         {
-            PlayerMovement.lifePoints -= 1;
+            PlayerMovement.lifePoints -= Tag == "Player"?1:0;
             Destroy(gameObject);
         }
+       
     }
     private void OnTriggerEnter(Collider collider)
     {

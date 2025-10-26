@@ -958,7 +958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: EnemySpeed
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3962603489055661971, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
