@@ -9,9 +9,13 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
+<<<<<<< HEAD
     [SerializeField] private GameObject OfficeWorkerPrefab;
     [SerializeField] private GameObject BlueCollarWorkerPrefab;
 
+=======
+    public AudioSource audioSource;
+>>>>>>> be596c51a24e677e3bc890051c2c405d44fc12f6
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
     private PlayerMovement playerMovement;
@@ -26,6 +30,7 @@ public class HarvestMask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         // Attach the masks to the face (terrible copy paste code lol)
         OfficeWorkerMask.transform.rotation = Quaternion.LookRotation(playerMovement.LookDir.normalized);
         OfficeWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
@@ -34,7 +39,7 @@ public class HarvestMask : MonoBehaviour
         blueCollarMaskCurrentEuler.x = -90f;
         BlueCollarWorkerMask.transform.eulerAngles = blueCollarMaskCurrentEuler; 
         BlueCollarWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
-
+        */
         if (ClosestEnemy != null)  {
             arrowSpriteRenderer.enabled = true;
             Vector3 directionToClosestEnemy = (ClosestEnemy.transform.position - Player.transform.position).normalized * 1.2f;
@@ -50,8 +55,13 @@ public class HarvestMask : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2")) {
             if (ClosestEnemy != null) {
+                audioSource.Play();
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
+
+                //Calls he instance of the GameManager 
+                GameManager.Instance.AddEnemyDestroyed();
+                GameManager.Instance.AddEnemyDestroyed();
 
                 // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();

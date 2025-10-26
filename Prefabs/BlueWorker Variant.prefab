@@ -3711,7 +3711,7 @@ Animator:
   m_GameObject: {fileID: 3459049094540285331}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f45613236e6e1ceb2a883235814611ea, type: 2}
+  m_Controller: {fileID: 9100000, guid: 344394d69d3edb148ba1efb4001f0af5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6475,19 +6475,17 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5274611372669928308, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: -9097883258027286216, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: -4835477272808111806, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: -7283141047884764157, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: 7429635940443785573, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: 8267565915677969391, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: 6208713299186302895, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
-  - {fileID: 2692650158365643405, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
+  - {fileID: -5274611372669928308, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: -9097883258027286216, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: -4835477272808111806, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: -7283141047884764157, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: 7429635940443785573, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: 8267565915677969391, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: 6208713299186302895, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
+  - {fileID: 2692650158365643405, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6505,7 +6503,6 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -6513,7 +6510,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 472365038259374708, guid: 5c740e99781f0284fbf50c70de2a24fd, type: 3}
+  m_Mesh: {fileID: 472365038259374708, guid: 0c8da98166e770845bfc97f4dcb192cf, type: 3}
   m_Bones:
   - {fileID: 3131063085956628068}
   - {fileID: 6831834976899101524}
@@ -9788,6 +9785,10 @@ PrefabInstance:
     - target: {fileID: 7746073621355908571, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: m_Name
       value: BlueWorker Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746073621355908571, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

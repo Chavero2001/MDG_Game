@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]    
@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject hit;
     float horizontalInput;
     float verticalInput;
-
+    public AudioSource audioSource;
     Vector3 moveDirection;
     public PlayerCamera playerCamera1;
     Rigidbody rb;
@@ -32,16 +32,26 @@ public class PlayerMovement : MonoBehaviour
         {
             Instantiate(hit, new Vector3(transform.position.x, transform.position.y+2, transform.position.z), Quaternion.identity);
             playerCamera1.Shake(0.25f, 0.2f, 30f);
+            audioSource.Play();
             previousLife = lifePoints;
         }
         if (lifePoints < 5)
         {
             regenTimer += Time.deltaTime;
             if (regenTimer > 2)
-            {                lifePoints += 1;
+            {                
+                lifePoints += 1;
                 previousLife = lifePoints;
                 regenTimer = 0;
             }
+        }
+        if(lifePoints < 1)
+        {
+            DeathScreen.IsDeath = true;
+            GameManager.Instance.EndRun();
+            lifePoints = 5;
+            SceneManager.LoadScene(2);
+            
         }
         // Rotation
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
@@ -68,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         {
             smoke.SetActive(true);
             dashSpeed = 5f;
-            dashTimer = 0.035f;
+            dashTimer = 0.05f;
         }
         if(dashTimer <= 0)
         {

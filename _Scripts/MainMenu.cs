@@ -17,7 +17,10 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        
+        
         Debug.Log("Moving to next scene");
+        //GameManager.Instance.
         SceneManager.LoadScene(1); // replace with your actual game scene name
     }
 
