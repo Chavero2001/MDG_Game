@@ -6433,7 +6433,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1261277390629022168}
   - component: {fileID: 2254139066458680813}
-  - component: {fileID: 7888813796168990578}
   m_Layer: 0
   m_Name: BlueCollarWorker
   m_TagString: Untagged
@@ -6735,27 +6734,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00006253156, y: -0.0012137297, z: 0.0017239403}
     m_Extent: {x: 0.0016704792, y: 0.0028441441, z: 0.00422127}
   m_DirtyAABB: 0
---- !u!65 &7888813796168990578
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6173519210029536536}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0036666759, y: 0.002153586, z: 0.00544207}
-  m_Center: {x: 0.00074889546, y: 0.00004030684, z: 0.0025055464}
 --- !u!1 &6220518056043190722
 GameObject:
   m_ObjectHideFlags: 0
@@ -9828,8 +9806,23 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Size.x
+      value: 0.70763874
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Size.z
+      value: 0.70991826
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Center.x
+      value: 0.18384129
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Center.z
+      value: 0.033282384
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3279089494294858652, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
     m_AddedGameObjects:
@@ -9857,7 +9850,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: e1a75776f005439469f89a17a986c567, type: 3}
+  m_Resource: {fileID: 8300000, guid: e11a5a019377fbd4c81caa0adcb4c236, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1

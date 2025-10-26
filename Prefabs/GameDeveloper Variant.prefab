@@ -7196,7 +7196,6 @@ GameObject:
   m_Component:
   - component: {fileID: 232316258868675449}
   - component: {fileID: 3004916180582420592}
-  - component: {fileID: 4194782221166222138}
   m_Layer: 0
   m_Name: Homeless_Person
   m_TagString: Untagged
@@ -7498,27 +7497,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000064039195, y: -0.0008885743, z: 0.0019068895}
     m_Extent: {x: 0.001900254, y: 0.0029258253, z: 0.0042006}
   m_DirtyAABB: 0
---- !u!65 &4194782221166222138
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7064232128983425595}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.0054154214, y: 0.0024498126, z: 0.0037719803}
-  m_Center: {x: 0.0026234752, y: -0.011593499, z: -0.0005393014}
 --- !u!1 &7111251954794105748
 GameObject:
   m_ObjectHideFlags: 0
@@ -11892,6 +11870,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -179.99995
       objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4941552
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Size.z
+      value: 0.7507599
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Center.x
+      value: 0.07709946
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: m_Center.z
+      value: 0.0023657978
+      objectReference: {fileID: 0}
     - target: {fileID: 8097897697190624051, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 89.930756
@@ -12172,8 +12166,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.0000681362
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7912055366559081660, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3279089494294858652, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
     m_AddedGameObjects:
@@ -12206,7 +12199,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: e1a75776f005439469f89a17a986c567, type: 3}
+  m_Resource: {fileID: 8300000, guid: e11a5a019377fbd4c81caa0adcb4c236, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
