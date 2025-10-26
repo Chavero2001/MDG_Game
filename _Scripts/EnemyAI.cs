@@ -54,7 +54,7 @@ public class EnemyAI : MonoBehaviour
         transform.position = ClampToBounds(transform.position);
     }
 
-    /*void Update()
+    void Update()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
 
@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour
             // Optional: hard clamp each frame (physics or other forces can push you out)
             transform.position = ClampToBounds(transform.position);
         }
-    }*/
+    }
 
     private void chase()
     {
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
 
@@ -126,7 +126,7 @@ public class EnemyAI : MonoBehaviour
 
             rb.position = ClampToBounds(rb.position);
         }
-    }
+    }*/
 
 
     // --- REPLACED: bounded wandering with typo fix (transform, not trnasform) ---
