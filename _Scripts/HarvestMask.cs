@@ -68,6 +68,9 @@ public class HarvestMask : MonoBehaviour
                 playerAttack.projectilePrefab = enemyProjectile;
                 // Copy the movement speed
                 playerMovement.moveSpeed = enemyAi.EnemySpeed;
+                // Copy the first rate and rest can fire
+                playerAttack.fireCooldown = enemyAi.TimeBetweenShots;
+                playerAttack.CanFire = true;
 
                 // Make the appropriate mask visible
                 HideAllMasks();
