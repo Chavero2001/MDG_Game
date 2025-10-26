@@ -56,8 +56,8 @@ public class HarvestMask : MonoBehaviour
                 Player.transform.position = ClosestEnemy.transform.position;
 
                 //Calls he instance of the GameManager 
-                //GameManager.Instance.AddEnemyDestroyed();
-                //GameManager.Instance.AddFacesObtained();
+                GameManager.Instance.AddEnemyDestroyed();
+                GameManager.Instance.AddFacesObtained();
 
                 // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
