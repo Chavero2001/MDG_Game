@@ -8053,7 +8053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e006575aea364d9ef1801034bd67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  projectilePrefab: {fileID: 6286105892844432141, guid: 410a83ed91516a045a99e8053d1fe21a, type: 3}
+  projectilePrefab: {fileID: 3197248792452416942, guid: 424347a296f73850c9428354375ad151, type: 3}
 --- !u!114 &1788804101108876788
 MonoBehaviour:
   m_ObjectHideFlags: 0
