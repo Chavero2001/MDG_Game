@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: health
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6446433013480855853, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: hitParticles
+      value: 
+      objectReference: {fileID: 578171323811682204, guid: f40ffe3854b024a45b4628266c62a516, type: 3}
     - target: {fileID: 7746073621355908571, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: m_Name
       value: BlueWorker Variant

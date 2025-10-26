@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCamera;
     public Vector3 LookDir;
     public GameObject smoke;
+    public GameObject hit;
     float horizontalInput;
     float verticalInput;
 
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(previousLife != lifePoints)
         {
+            Instantiate(hit, new Vector3(transform.position.x, transform.position.y+2, transform.position.z), Quaternion.identity);
             playerCamera1.Shake(0.25f, 0.2f, 30f);
             previousLife = lifePoints;
         }
