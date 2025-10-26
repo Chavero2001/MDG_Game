@@ -89,8 +89,8 @@ public class EnemyAI : MonoBehaviour
                 );
             }
 
-            //transform.position += moveDir * EnemySpeed * Time.deltaTime;
-            rb.MovePosition(rb.position + moveDir * EnemySpeed * Time.fixedDeltaTime);
+            transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            //rb.MovePosition(rb.position + moveDir * EnemySpeed * Time.fixedDeltaTime);
 
         }
         else
