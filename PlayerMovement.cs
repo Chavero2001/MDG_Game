@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
         }
         if(lifePoints < 1)
         {
+            DeathScreen.IsDeath = true;
+            GameManager.Instance.EndRun();
             lifePoints = 5;
             SceneManager.LoadScene(2);
             
