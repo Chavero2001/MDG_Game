@@ -9,7 +9,7 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
-
+    public AudioSource audioSource;
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
     private PlayerMovement playerMovement;
@@ -48,6 +48,7 @@ public class HarvestMask : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2")) {
             if (ClosestEnemy != null) {
+                audioSource.Play();
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
 
