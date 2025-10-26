@@ -27,13 +27,13 @@ public class EndScreenController : MonoBehaviour
 
         float time = GameManager.Instance.TimePlayed;
         int enemies = GameManager.Instance.EnemiesDestroyed;
-        int waves = GameManager.Instance.WavesSurvived;
+        float waves = GameManager.Instance.WavesSurvived;
         int faces = GameManager.Instance.FacesObtained;
 
         // Start animated display
         StartCoroutine(AnimateTime(time));
         StartCoroutine(AnimateIntCounter(faces, facesObtainedText, "Faces Obtained: "));
-        StartCoroutine(AnimateIntCounter(waves, wavesSurvivedText, "Waves Survived: "));
+        StartCoroutine(AnimateIntCounter((int)waves, wavesSurvivedText, "Waves Survived: "));
         StartCoroutine(AnimateIntCounter(enemies, enemiesDestroyedText, "Enemies Destroyed: "));
     }
 
@@ -83,6 +83,7 @@ public class EndScreenController : MonoBehaviour
     // Hook these to buttons
     public void OnPlayAgain()
     {
+        SpawnWaves.wave = 1;
         // Reset as desired
         GameManager.Instance.ResetRun();
         SceneManager.LoadScene("GameScene"); // replace with your gameplay scene name
@@ -90,6 +91,7 @@ public class EndScreenController : MonoBehaviour
 
     public void OnMainMenu()
     {
+        SpawnWaves.wave = 1;
         GameManager.Instance.ResetRun();
         SceneManager.LoadScene("MainMenu");
     }

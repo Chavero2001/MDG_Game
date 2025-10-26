@@ -19,7 +19,7 @@ public class SpawnWaves : MonoBehaviour
 
     private bool isSpawning = false;
     private float checkTimer = 0f;
-    private float wave=1f;
+    public static float wave=1f;
     public float waveIncrement = 1f;
     private void Start()
     {
@@ -41,7 +41,7 @@ public class SpawnWaves : MonoBehaviour
             // If all were cleared, start next wave
             if (alive == 0)
             {
-                wave += 0.5f;
+                wave += waveIncrement;
                 StartCoroutine(SpawnWave());
             }
         }

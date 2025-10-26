@@ -39,14 +39,17 @@ public class PlayerMovement : MonoBehaviour
         {
             regenTimer += Time.deltaTime;
             if (regenTimer > 2)
-            {                lifePoints += 1;
+            {                
+                lifePoints += 1;
                 previousLife = lifePoints;
                 regenTimer = 0;
             }
         }
         if(lifePoints < 1)
         {
-            SceneManager.LoadScene(0);
+            lifePoints = 5;
+            SceneManager.LoadScene(2);
+            
         }
         // Rotation
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);

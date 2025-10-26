@@ -17,7 +17,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        PlayerMovement.lifePoints = 5;
+        
+        
         Debug.Log("Moving to next scene");
         SceneManager.LoadScene(1); // replace with your actual game scene name
     }

@@ -15,7 +15,7 @@ public class HealthComponent : MonoBehaviour
         {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
             if (projectile.Parent.tag != gameObject.tag) {
-                Instantiate(hitParticles, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+                Instantiate(hitParticles, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);  
                 health -= projectile.Damage;
                 if (health <= 0) {
                     if (gameObject.tag == "Player")

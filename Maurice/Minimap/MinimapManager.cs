@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class MinimapManager : MonoBehaviour
 {
+    public TextMeshProUGUI textMeshProUGUI;
     [Header("World bounds (XZ) mapped to the minimap")]
     [SerializeField] float minX = 0f;
     [SerializeField] float maxX = 150f;
@@ -81,6 +82,7 @@ public class MinimapManager : MonoBehaviour
 
     void RefreshPlayer()
     {
+        textMeshProUGUI.text = "Wave - " + SpawnWaves.wave;
         if (!playerDotPrefab || !iconParent) return;
 
         if (playerTf == null)
