@@ -899,11 +899,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fa1cd61b254b847868d0724fbba3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12
+  moveSpeed: 8
   orientation: {fileID: 937621905}
   playerCamera: {fileID: 1248703045}
   LookDir: {x: 0, y: 0, z: 0}
   smoke: {fileID: 1478154934}
+  hit: {fileID: 578171323811682204, guid: f40ffe3854b024a45b4628266c62a516, type: 3}
   playerCamera1: {fileID: 50331699}
 --- !u!54 &857798070
 Rigidbody:
@@ -1107,7 +1108,6 @@ Transform:
   m_Children:
   - {fileID: 50331698}
   - {fileID: 857798068}
-  - {fileID: 8320990993907274051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1248703044
@@ -2485,6 +2485,7 @@ Transform:
   m_Children:
   - {fileID: 799189026809917565}
   - {fileID: 2603413888616737512}
+  - {fileID: 8320990993907274051}
   m_Father: {fileID: 857798068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &783979579907999802
@@ -11081,11 +11082,11 @@ Transform:
   m_GameObject: {fileID: 8660925197674679289}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.019639969, y: 1.366, z: 0.7620001}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0.367, z: 0.154}
+  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1011036173}
+  m_Father: {fileID: 783979579907999801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &8334927194166917444
 Transform:
