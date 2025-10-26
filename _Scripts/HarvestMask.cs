@@ -51,6 +51,8 @@ public class HarvestMask : MonoBehaviour
                 audioSource.Play();
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
+
+                //Calls he instance of the GameManager 
                 GameManager.Instance.AddEnemyDestroyed();
                 GameManager.Instance.AddEnemyDestroyed();
 
