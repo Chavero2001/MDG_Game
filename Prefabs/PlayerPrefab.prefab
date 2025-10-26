@@ -1916,7 +1916,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918090476927797269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3904,9 +3904,6 @@ MonoBehaviour:
   baseIntensity: 0.6
   useLifePoints: 1
   lifeScale: 20
-  maxShakeXZ: {x: 0.6, y: 0.6}
-  includeY: 0
-  maxShakeY: 0.15
 --- !u!1 &3483442723947591091
 GameObject:
   m_ObjectHideFlags: 0
@@ -8130,6 +8127,8 @@ MonoBehaviour:
   moveSpeed: 5
   orientation: {fileID: 1075210968827337074}
   playerCamera: {fileID: 3804124898790379985}
+  LookDir: {x: 0, y: 0, z: 0}
+  smoke: {fileID: 0}
   playerCamera1: {fileID: 0}
 --- !u!114 &350937336218877523
 MonoBehaviour:
