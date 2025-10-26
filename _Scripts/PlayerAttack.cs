@@ -5,7 +5,7 @@ public class PlayerAttack : MonoBehaviour
     public GameObject projectilePrefab;
     [SerializeField]private float spawnDistance = 2.0f;
     public AudioSource audioSource;
-    public float fireCooldown = 1.0f;
+    public float fireCooldown = 0.4f;
 
     public bool CanFire = true;
 
