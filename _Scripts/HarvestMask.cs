@@ -56,8 +56,8 @@ public class HarvestMask : MonoBehaviour
                 Player.transform.position = ClosestEnemy.transform.position;
 
                 //Calls he instance of the GameManager 
-                GameManager.Instance.AddEnemyDestroyed();
-                GameManager.Instance.AddFacesObtained();
+                //GameManager.Instance.AddEnemyDestroyed();
+                //GameManager.Instance.AddFacesObtained();
 
                 // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
@@ -92,14 +92,13 @@ public class HarvestMask : MonoBehaviour
         }
     }
 
-
     private void HideAllMasks() {
         MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
         officeWorkerMask.enabled = false;
         MeshRenderer blueCollarWorkerMask = BlueCollarWorkerMask.GetComponent<MeshRenderer>();
         blueCollarWorkerMask.enabled = false;
         MeshRenderer gameDevMask = GameDevMask.GetComponent<MeshRenderer>();
-        blueCollarWorkerMask.enabled = false;
+        gameDevMask.enabled = false;
     }
 
 
