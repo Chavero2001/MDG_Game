@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]    
@@ -42,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
                 previousLife = lifePoints;
                 regenTimer = 0;
             }
+        }
+        if(lifePoints < 1)
+        {
+            SceneManager.LoadScene(0);
         }
         // Rotation
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
