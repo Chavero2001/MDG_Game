@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
 
     [Header("UI Panels")]
     public GameObject CreditsPanel;
+    [SerializeField] GameObject[] UFOs;
 
     Scene scene;
 
@@ -21,7 +23,16 @@ public class MainMenu : MonoBehaviour
         
         Debug.Log("Moving to next scene");
         //GameManager.Instance.
-        SceneManager.LoadScene(1); // replace with your actual game scene name
+        for (int i = 0; i < UFOs.Length; i++)
+        {
+            Animator anim = UFOs[i].GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("Leaving");
+            }
+        }
+        StartCoroutine(WaitBeforTransitioning());
+
     }
 
     public void QuitGame()
@@ -37,5 +48,11 @@ public class MainMenu : MonoBehaviour
     public void HideCredits()
     {
         CreditsPanel.SetActive(false);
+    }
+
+    private IEnumerator WaitBeforTransitioning()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(1); // replace with your actual game scene name
     }
 }

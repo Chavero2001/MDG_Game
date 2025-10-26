@@ -81,7 +81,7 @@ public class EndScreenController : MonoBehaviour
     }
 
     // Hook these to buttons
-    public void OnPlayAgain()
+    /*public void OnPlayAgain()
     {
         SpawnWaves.wave = 1;
         // Reset as desired
@@ -94,5 +94,5 @@ public class EndScreenController : MonoBehaviour
         SpawnWaves.wave = 1;
         GameManager.Instance.ResetRun();
         SceneManager.LoadScene("MainMenu");
-    }
+    }*/
 }
