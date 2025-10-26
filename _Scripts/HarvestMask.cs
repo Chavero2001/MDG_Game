@@ -9,13 +9,7 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
-<<<<<<< HEAD
-    [SerializeField] private GameObject OfficeWorkerPrefab;
-    [SerializeField] private GameObject BlueCollarWorkerPrefab;
-
-=======
     public AudioSource audioSource;
->>>>>>> be596c51a24e677e3bc890051c2c405d44fc12f6
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
     private PlayerMovement playerMovement;
