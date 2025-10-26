@@ -1974,7 +1974,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CreditsPanel: {fileID: 2106796204}
-  UFOs: []
+  UFOs:
+  - {fileID: 1647974328}
+  - {fileID: 2075373172}
+  - {fileID: 617199324}
+  - {fileID: 705430210}
 --- !u!210 &1596455470
 SortingGroup:
   m_ObjectHideFlags: 0
