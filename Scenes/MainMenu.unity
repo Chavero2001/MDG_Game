@@ -451,13 +451,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Credits\n\nMaurice Elkouby       PROGRAMMER\nEmilio Chavero          
+  m_text: "\nCredits\nMaurice Elkouby       PROGRAMMER\nEmilio Chavero          
     PROGRAMMER\nAdrien Tremblay        PROGRAMMER\n                             
     3D ARTIST\nLucas Rasson             3D ARTIST          \u200E\nAndrea Chavero       
-    ARTIST                 \u200E\nOurania Voyatzis       PROGRAMMER\u200E "
+    ARTIST                 \u200E\n Ourania Voyatzis       PROGRAMMER \u200E \nRabeeh
+    B                     3D ARTIST         \u200E"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -595,7 +596,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1542,14 +1543,14 @@ RectTransform:
   m_GameObject: {fileID: 1079789276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4109, y: 1.4109, z: 1.4109}
+  m_LocalScale: {x: 1.4109, y: 1.4109, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 409122813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -119, y: 194}
+  m_AnchoredPosition: {x: -108, y: 263}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079789278
@@ -1575,7 +1576,7 @@ MonoBehaviour:
   m_text: NEWCOMER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1713,7 +1714,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2062,7 +2063,7 @@ MonoBehaviour:
   m_text: Credits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2884,7 +2885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2106796205
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2894,7 +2895,7 @@ RectTransform:
   m_GameObject: {fileID: 2106796204}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.38, y: 0.608, z: 0.76}
+  m_LocalScale: {x: 0.5, y: 0.79999995, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 304574809}
@@ -3004,7 +3005,7 @@ MonoBehaviour:
   m_text: Play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
-  m_sharedMaterial: {fileID: -3347699955765250358, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
+  m_sharedMaterial: {fileID: 9013178660713411503, guid: 744cfcf309c8b7144a7187ec0a59c2e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
