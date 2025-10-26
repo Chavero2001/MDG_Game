@@ -5,7 +5,10 @@ public class PlayerAttack : MonoBehaviour
     public GameObject projectilePrefab;
     private float spawnDistance = 1.0f;
     public AudioSource audioSource;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float fireCooldown = 1.0f;
+
+    public bool CanFire = true;
+
     void Start()
     {
         
@@ -14,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && CanFire)
         {
             audioSource.Play();
             Vector3 globalSpawnPosition = transform.position + transform.forward * spawnDistance ;
@@ -22,6 +25,13 @@ public class PlayerAttack : MonoBehaviour
             GameObject projectileInstance = Instantiate(projectilePrefab, globalSpawnPosition, spawnRotation);
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
             projectile.Init("Enemy", gameObject);
+
+            CanFire = false;
+            Invoke(nameof(enableFire), fireCooldown);
         }
+    }
+
+    private void enableFire() {
+        CanFire = true;
     }
 }
