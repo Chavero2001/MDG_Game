@@ -1433,6 +1433,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3197248792452416942, guid: 47eb525fad6419444a0b2ee38d320824, type: 3}
   spawnDistance: 1
   audioSource: {fileID: 50331700}
+  fireCooldown: 1
+  CanFire: 1
 --- !u!82 &857798073
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3250,6 +3252,7 @@ MonoBehaviour:
   OfficeWorkerMask: {fileID: 8660925197674679289}
   BlueCollarWorkerMask: {fileID: 3986206761270809460}
   GameDevMask: {fileID: 7678818287981362274}
+  cameraPosition: {fileID: 127911271}
   audioSource: {fileID: 8495084809072668536}
 --- !u!4 &751638554494185602
 Transform:
