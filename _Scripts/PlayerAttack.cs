@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public GameObject projectilePrefab;
-    private float spawnDistance = 1.0f;
+    [SerializeField]private float spawnDistance = 2.0f;
     public AudioSource audioSource;
     public float fireCooldown = 1.0f;
 
