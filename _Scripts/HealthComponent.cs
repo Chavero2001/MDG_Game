@@ -3,6 +3,7 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour
 {
     public int health = 3;
+    static public bool IsDeath;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -12,7 +13,15 @@ public class HealthComponent : MonoBehaviour
             if (projectile.Parent.tag != gameObject.tag) {
                 health -= projectile.Damage;
                 if (health <= 0) {
-                    Destroy(gameObject);
+                    if (gameObject.tag == "Player")
+                    {
+                        IsDeath = true;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
                 }
                 Destroy(collision.gameObject);
             }

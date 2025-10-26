@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log("Moving to next scene");
-        SceneManager.LoadScene("Maurice"); // replace with your actual game scene name
+        SceneManager.LoadScene(1); // replace with your actual game scene name
     }
 
     public void QuitGame()
