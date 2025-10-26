@@ -10,6 +10,8 @@ public class EnemyAI : MonoBehaviour
     public float TimeBetweenShots; // will pass to towards the player
     [SerializeField] public GameObject Projectiles;
     [SerializeField] private float RotationSpeed = 30f;
+    [SerializeField] private bool lockY = true;
+    private float groundY;
 
     public enum EnemyType {
         OfficeWorker,
