@@ -8,8 +8,12 @@ public class PlayerMovement : MonoBehaviour
     public Camera playerCamera;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public Vector3 LookDir;
 
+=======
+    public GameObject smoke;
+>>>>>>> Stashed changes
 =======
     public GameObject smoke;
 >>>>>>> Stashed changes
