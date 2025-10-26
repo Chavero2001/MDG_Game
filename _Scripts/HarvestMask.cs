@@ -55,7 +55,7 @@ public class HarvestMask : MonoBehaviour
 
                 //Calls he instance of the GameManager 
                 GameManager.Instance.AddEnemyDestroyed();
-                GameManager.Instance.AddEnemyDestroyed();
+                GameManager.Instance.AddFacesObtained();
 
                 // Copy the stats
                 EnemyAI enemyAi = ClosestEnemy.GetComponent<EnemyAI>();
