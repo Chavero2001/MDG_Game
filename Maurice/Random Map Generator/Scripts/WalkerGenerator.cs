@@ -296,12 +296,10 @@ public class WalkerGenerator : MonoBehaviour
             int y = rnd.Next(BuildingSetbackFromRoad + 1, MapHeight - h - BuildingSetbackFromRoad - 1);
             var r = new RectInt(x, y, w, h);
 
-            if (!IsRectBuildable(r, BuildingSetbackFromRoad)) continue;
+            // Building shell: 1-cell perimeter only (so buffers still work)
+            CarvePerimeter(r, Cell.Wall);
 
-            // Building footprint
-            CarveRect(r, Cell.Wall);
-
-            // Optional courtyard (grass) inside
+            // Optional courtyard (keeps your existing logic)
             if (rnd.NextDouble() < CourtyardChance &&
                 r.width > 2 * (CourtyardInset + 1) &&
                 r.height > 2 * (CourtyardInset + 1))
@@ -312,6 +310,11 @@ public class WalkerGenerator : MonoBehaviour
                 );
                 CarveRect(inner, Cell.Grass);
             }
+
+            // Spawn 1–4 building GameObjects for this lot
+            int prefabCount = rnd.Next(1, 5); // 1..4 inclusive
+            SpawnBuildingObjects(r, prefabCount);
+
         }
     }
     void PlaceTrees()
@@ -484,9 +487,13 @@ public class WalkerGenerator : MonoBehaviour
                         break;
                     case Cell.Wall:
                         walls.Add(cell); wallTiles.Add(Wall);
-                        var worldPos = wallTileMap != null ? wallTileMap.GetCellCenterWorld(cell) : new Vector3(x, 0f, y);
-                        if (wallObject && parentTransform) Instantiate(wallObject, worldPos, Quaternion.identity, parentTransform);
+                        if (spawnWallPrefabsFromTiles && wallObject && parentTransform)
+                        {
+                            var worldPos = wallTileMap != null ? wallTileMap.GetCellCenterWorld(cell) : new Vector3(x, 0f, y);
+                            Instantiate(wallObject, worldPos, Quaternion.identity, parentTransform);
+                        }
                         break;
+
                 }
             }
 
@@ -549,7 +556,73 @@ public class WalkerGenerator : MonoBehaviour
             for (int x = xMin; x < xMax; x++)
                 grid[x, y] = type;
     }
+    [Header("Buildings (prefabs only)")]
+    public bool spawnWallPrefabsFromTiles = false; // keep false to avoid per-tile instantiates
 
+    // 1-cell perimeter writer (so buffers & visuals still work)
+    void CarvePerimeter(RectInt r, Cell cell)
+    {
+        for (int x = r.xMin; x < r.xMax; x++)
+        {
+            WriteCell(x, r.yMin, cell);
+            WriteCell(x, r.yMax - 1, cell);
+        }
+        for (int y = r.yMin + 1; y < r.yMax - 1; y++)
+        {
+            WriteCell(r.xMin, y, cell);
+            WriteCell(r.xMax - 1, y, cell);
+        }
+    }
+
+    Vector3 CellToWorld(int x, int y)
+    {
+        if (floorTileMap != null) return floorTileMap.GetCellCenterWorld(new Vector3Int(x, y, 0));
+        return new Vector3(x + 0.5f, 0f, y + 0.5f);
+    }
+
+    // Spawn 1–4 building objects at logical spots around the lot
+    void SpawnBuildingObjects(RectInt r, int count)
+    {
+        if (!wallObject || !parentTransform) return;
+
+        // Candidate anchor points: midpoints of edges + corners
+        var pts = new List<Vector2Int>
+    {
+        new Vector2Int(r.xMin + r.width/2, r.yMin),         // bottom mid
+        new Vector2Int(r.xMax - 1,          r.yMin + r.height/2), // right mid
+        new Vector2Int(r.xMin + r.width/2, r.yMax - 1),     // top mid
+        new Vector2Int(r.xMin,              r.yMin + r.height/2), // left mid
+        new Vector2Int(r.xMin,              r.yMin),         // BL corner
+        new Vector2Int(r.xMax - 1,          r.yMin),         // BR corner
+        new Vector2Int(r.xMin,              r.yMax - 1),     // TL corner
+        new Vector2Int(r.xMax - 1,          r.yMax - 1),     // TR corner
+    };
+
+        // Shuffle
+        for (int i = 0; i < pts.Count; i++)
+        {
+            int j = rnd.Next(i, pts.Count);
+            (pts[i], pts[j]) = (pts[j], pts[i]);
+        }
+
+        // Clamp count 1–4
+        count = Mathf.Clamp(count, 1, 4);
+
+        for (int i = 0; i < count && i < pts.Count; i++)
+        {
+            var p = pts[i];
+            var worldPos = CellToWorld(p.x, p.y);
+
+            // Optional: orient to face outward if placed on an edge
+            Quaternion rot = Quaternion.identity;
+            if (p.y == r.yMin) rot = Quaternion.LookRotation(Vector3.back);  // bottom edge faces -Z
+            else if (p.x == r.xMax - 1) rot = Quaternion.LookRotation(Vector3.right); // right edge +X
+            else if (p.y == r.yMax - 1) rot = Quaternion.LookRotation(Vector3.forward);// top edge +Z
+            else if (p.x == r.xMin) rot = Quaternion.LookRotation(Vector3.left);  // left edge -X
+
+            Instantiate(wallObject, worldPos, rot, parentTransform);
+        }
+    }
     bool IsRectBuildable(RectInt r, int setback)
     {
         var rr = Inflate(r, setback);
