@@ -20,6 +20,7 @@ public class HealthComponent : MonoBehaviour
                     }
                     else
                     {
+                        GameManager.Instance.AddEnemyDestroyed();
                         Destroy(gameObject);
                     }
                 }

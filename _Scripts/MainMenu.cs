@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
         
         
         Debug.Log("Moving to next scene");
+        //GameManager.Instance.
         SceneManager.LoadScene(1); // replace with your actual game scene name
     }
 
