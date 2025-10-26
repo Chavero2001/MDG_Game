@@ -4,12 +4,12 @@ using System.Collections;
 public class EnemyAI : MonoBehaviour
 {
     // Enemy setup
-    public float EnemySpeed; //will pass to towards the player
+    public float EnemySpeed; // will pass to towards the player
     [SerializeField] private float MinimumDistance;
     [SerializeField] private float SafetyDistance;
-    public float TimeBetweenShots; //will pass to towards the player
+    public float TimeBetweenShots; // will pass to towards the player
     [SerializeField] public GameObject Projectiles;
-    [SerializeField] private float RotationSpeed = 30f; 
+    [SerializeField] private float RotationSpeed = 30f;
 
     // Targets
     private Transform Player;
@@ -24,6 +24,14 @@ public class EnemyAI : MonoBehaviour
     private bool HasTarget;
     private bool IsWaiting;
 
+    // --- NEW: Wander bounds (XZ plane) ---
+    [Header("Wander Bounds (XZ)")]
+    [SerializeField] private float minX = 22f;
+    [SerializeField] private float maxX = 125f;
+    [SerializeField] private float minZ = 12f;
+    [SerializeField] private float maxZ = 130f;
+    [SerializeField] private float edgePadding = 0.5f; // keep a small buffer from edges
+
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -31,6 +39,9 @@ public class EnemyAI : MonoBehaviour
         direction[1] = 1; // Right
         direction[2] = 2; // Down
         direction[3] = 3; // Left
+
+        // Safety: clamp spawn position in case it starts outside
+        transform.position = ClampToBounds(transform.position);
     }
 
     void Update()
@@ -43,7 +54,11 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            wandering(direction[CurrentPointIndex]);
+            if (!IsWaiting)
+                wandering(direction[CurrentPointIndex]);
+
+            // Optional: hard clamp each frame (physics or other forces can push you out)
+            transform.position = ClampToBounds(transform.position);
         }
     }
 
@@ -56,8 +71,12 @@ public class EnemyAI : MonoBehaviour
             // Rotate toward player
             if (moveDir != Vector3.zero)
             {
-                Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+                Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRot,
+                    Mathf.Clamp01(RotationSpeed * Time.deltaTime)
+                );
             }
 
             transform.position += moveDir * EnemySpeed * Time.deltaTime;
@@ -70,20 +89,40 @@ public class EnemyAI : MonoBehaviour
             // Rotate toward player
             if (moveDir != Vector3.zero)
             {
-                Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+                Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRot,
+                    Mathf.Clamp01(RotationSpeed * Time.deltaTime)
+                );
             }
         }
     }
 
+    // --- REPLACED: bounded wandering with typo fix (transform, not trnasform) ---
     private void wandering(int dir)
     {
         if (!HasTarget)
         {
-            if (dir == 0) TargetDirection = transform.position + Vector3.forward * 10;
-            if (dir == 1) TargetDirection = transform.position + Vector3.right * 10;
-            if (dir == 2) TargetDirection = transform.position + Vector3.back * 10;
-            if (dir == 3) TargetDirection = transform.position + Vector3.left * 10;
+            Vector3 step = dir switch
+            {
+                0 => Vector3.forward * 10f,
+                1 => Vector3.right * 10f,
+                2 => Vector3.back * 10f,
+                3 => Vector3.left * 10f,
+                _ => Vector3.zero
+            };
+
+            Vector3 candidate = transform.position + step;
+
+            // If candidate is out of bounds (considering padding), try the opposite direction.
+            if (!InsideBounds(candidate, edgePadding))
+            {
+                Vector3 opposite = transform.position - step;
+                candidate = InsideBounds(opposite, edgePadding) ? opposite : ClampToBounds(candidate);
+            }
+
+            TargetDirection = ClampToBounds(candidate);
             HasTarget = true;
         }
 
@@ -92,11 +131,19 @@ public class EnemyAI : MonoBehaviour
         // Rotate toward movement direction
         if (moveDir != Vector3.zero)
         {
-            Quaternion targetRot = Quaternion.LookRotation(moveDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, RotationSpeed * Time.deltaTime);
+            Quaternion targetRot = Quaternion.LookRotation(moveDir, Vector3.up);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRot,
+                Mathf.Clamp01(RotationSpeed * Time.deltaTime)
+            );
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, TargetDirection, EnemySpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            TargetDirection,
+            EnemySpeed * Time.deltaTime
+        );
 
         if (Vector3.Distance(transform.position, TargetDirection) < 0.2f)
         {
@@ -110,6 +157,7 @@ public class EnemyAI : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             CurrentPointIndex = (CurrentPointIndex + 1) % 4;
+            HasTarget = false; // force a new pick next frame
         }
     }
 
@@ -121,14 +169,18 @@ public class EnemyAI : MonoBehaviour
             Vector3 directionToPlayer = (Player.position - transform.position).normalized;
             if (directionToPlayer != Vector3.zero)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    Mathf.Clamp01(RotationSpeed * Time.deltaTime)
+                );
             }
 
             // Calculate a spawn point slightly in front of the enemy
             float spawnDistance = 1.0f; // adjust depending on enemy size
-     
             Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
+
             // Instantiate the projectile facing the same direction as the enemy
             GameObject projectileInstance = Instantiate(Projectiles, spawnPosition, transform.rotation);
 
@@ -146,5 +198,18 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(2f);
         CurrentPointIndex = Random.Range(0, 4); // optional: randomize direction
         IsWaiting = false;
+    }
+
+    private bool InsideBounds(Vector3 p, float padding = 0f)
+    {
+        return p.x >= (minX + padding) && p.x <= (maxX - padding) &&
+               p.z >= (minZ + padding) && p.z <= (maxZ - padding);
+    }
+
+    private Vector3 ClampToBounds(Vector3 p)
+    {
+        float x = Mathf.Clamp(p.x, minX, maxX);
+        float z = Mathf.Clamp(p.z, minZ, maxZ);
+        return new Vector3(x, p.y, z);
     }
 }
