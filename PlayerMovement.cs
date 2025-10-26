@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     public Transform orientation;
     public Camera playerCamera;
+    public Vector3 LookDir;
 
     float horizontalInput;
     float verticalInput;
@@ -42,11 +43,11 @@ public class PlayerMovement : MonoBehaviour
             Vector3 hitPoint = ray.GetPoint(distance);
 
             // Look direction (ignore height)
-            Vector3 lookDir = hitPoint - rb.position;
-            lookDir.y = 0;
+            LookDir = hitPoint - rb.position;
+            LookDir.y = 0;
 
-            if (lookDir.sqrMagnitude > 0.001f) {
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            if (LookDir.sqrMagnitude > 0.001f) {
+                Quaternion targetRotation = Quaternion.LookRotation(LookDir);
                 rb.MoveRotation(targetRotation); // smoother than setting rb.rotation directly
             }
         }
