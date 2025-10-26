@@ -73,13 +73,13 @@ public class PlayerCamera : MonoBehaviour
         if (cameraPosition.position.z >= 12f && cameraPosition.position.z <= 130f)
         {
             float z = Mathf.Lerp(pos.z, cameraPosition.position.z, Time.deltaTime * 5f);
-            pos = new Vector3(pos.x, pos.y, z);
+            pos = new Vector3(pos.x, cameraPosition.position.y, z);
         }
 
         if (cameraPosition.position.x >= 22f && cameraPosition.position.x <= 125f)
         {
             float x = Mathf.Lerp(pos.x, cameraPosition.position.x, Time.deltaTime * 5f);
-            pos = new Vector3(x, pos.y, pos.z);
+            pos = new Vector3(x, cameraPosition.position.y, pos.z);
         }
 
         // --- Apply simple screen shake on X/Z ---

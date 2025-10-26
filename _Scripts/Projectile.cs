@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
     {
         // Move projectile in its stored direction
         transform.position += Direction * ProjectileSpeed * Time.deltaTime;
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+        transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
 
     }
 

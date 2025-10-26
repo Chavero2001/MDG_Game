@@ -10,6 +10,7 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
     [SerializeField] public GameObject GameDevMask;
+    [SerializeField] public Transform cameraPosition;
     public AudioSource audioSource;
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
@@ -51,6 +52,8 @@ public class HarvestMask : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2")) {
             if (ClosestEnemy != null) {
+                cameraPosition.position = new Vector3 (cameraPosition.position.x, 5, cameraPosition.position.z);
+                Invoke("returnCam", 1);
                 audioSource.Play();
                 // Teleport to the Closest Enemy
                 Player.transform.position = ClosestEnemy.transform.position;
@@ -94,7 +97,10 @@ public class HarvestMask : MonoBehaviour
             }
         }
     }
-
+    void returnCam()
+    {
+        cameraPosition.position = new Vector3(transform.position.x, 16, transform.position.z);
+    }
     private void HideAllMasks() {
         MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
         officeWorkerMask.enabled = false;
