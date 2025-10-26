@@ -25,6 +25,7 @@ public class EnemyAI : MonoBehaviour
     private float DistanceFromPlayer;
     private float NextShotTime;
     private int CurrentPointIndex;
+    private Rigidbody rb;
 
     // Wandering behavior
     private int[] direction = new int[4];
@@ -42,6 +43,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         direction[0] = 0; // Up
         direction[1] = 1; // Right
@@ -52,7 +54,7 @@ public class EnemyAI : MonoBehaviour
         transform.position = ClampToBounds(transform.position);
     }
 
-    void Update()
+    /*void Update()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
 
@@ -68,7 +70,7 @@ public class EnemyAI : MonoBehaviour
             // Optional: hard clamp each frame (physics or other forces can push you out)
             transform.position = ClampToBounds(transform.position);
         }
-    }
+    }*/
 
     private void chase()
     {
@@ -87,7 +89,9 @@ public class EnemyAI : MonoBehaviour
                 );
             }
 
-            transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            //transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            rb.MovePosition(rb.position + moveDir * EnemySpeed * Time.fixedDeltaTime);
+
         }
         else
         {
@@ -106,6 +110,24 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
+    void FixedUpdate()
+    {
+        DistanceFromPlayer = Vector3.Distance(transform.position, Player.position);
+
+        if (DistanceFromPlayer < MinimumDistance)
+        {
+            chase();
+        }
+        else
+        {
+            if (!IsWaiting)
+                wandering(direction[CurrentPointIndex]);
+
+            rb.position = ClampToBounds(rb.position);
+        }
+    }
+
 
     // --- REPLACED: bounded wandering with typo fix (transform, not trnasform) ---
     private void wandering(int dir)
