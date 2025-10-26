@@ -8,39 +8,28 @@ public class PlayerCamera : MonoBehaviour
     public Transform cameraPosition;
 
     [Header("Volume (optional)")]
-    public Volume volume;                        // Assign one, or we'll create a runtime global Volume.
+    public Volume volume;
 
     [Header("Vignette control")]
-    [Range(0f, 1f)] public float baseIntensity = 0.6f;  // Baseline intensity
-    public bool useLifePoints = true;                   // Subtract life influence like your original
-    public float lifeScale = 20f;                       // intensity -= lifePoints / lifeScale
-
-    [Header("Screen Shake")]
-    [Tooltip("Max horizontal/forward shake offset in world units when amplitude=1.")]
-    public Vector2 maxShakeXZ = new Vector2(0.6f, 0.6f);
-    [Tooltip("Apply a small vertical nudge as well.")]
-    public bool includeY = false;
-    [Tooltip("Max vertical shake offset in world units when amplitude=1.")]
-    public float maxShakeY = 0.15f;
+    [Range(0f, 1f)] public float baseIntensity = 0.6f;
+    public bool useLifePoints = true;
+    public float lifeScale = 20f;
 
     private Vignette vignette;
-    private bool createdRuntimeVolume = false;          // Track if we created one to clean up later
+    private bool createdRuntimeVolume = false;
 
-    // --- Shake internals ---
-    private float shakeTimer = 0f;
-    private float shakeDuration = 0f;
-    private float shakeAmplitude = 0f;
-    private float shakeFrequency = 18f;
-    private Vector3 shakeOffset = Vector3.zero;
-    private Vector3 shakeSeeds; // random seeds to decorrelate axes
+    // --- Simple Screen Shake state ---
+    private float shakeTime;          // time remaining
+    private float shakeDuration;      // total duration
+    private float shakeMagnitude;     // max displacement (units)
+    private float shakeFrequency;     // noise speed
+    private Vector2 shakeSeed;        // random seed so shakes look different
 
     private void Awake()
     {
-        // Start camera at target
         if (cameraPosition != null)
             transform.position = cameraPosition.position;
 
-        // Ensure a Volume exists (emulates QuickVolume if none provided)
         if (volume == null)
         {
             volume = gameObject.GetComponent<Volume>();
@@ -51,34 +40,23 @@ public class PlayerCamera : MonoBehaviour
             }
         }
 
-        // Configure as a global, high-priority volume (like QuickVolume’s priority = 100f)
         volume.isGlobal = true;
         volume.priority = 100f;
 
-        // Ensure a profile exists
         if (volume.profile == null)
             volume.profile = ScriptableObject.CreateInstance<VolumeProfile>();
 
-        // Get or add Vignette override
         if (!volume.profile.TryGet(out vignette))
             vignette = volume.profile.Add<Vignette>(true);
 
-        // Activate and ensure parameters are overridable by code
         vignette.active = true;
         vignette.intensity.overrideState = true;
         vignette.smoothness.overrideState = true;
-
-        // Seed Perlin noise once
-        shakeSeeds = new Vector3(
-            Random.Range(0.1f, 1000f),
-            Random.Range(0.1f, 1000f),
-            Random.Range(0.1f, 1000f)
-        );
     }
 
     private void Update()
     {
-        // --- Vignette intensity (PPv2 "pulse" adapted to URP) ---
+        // --- Vignette intensity ---
         if (vignette != null)
         {
             float intensity = baseIntensity;
@@ -87,7 +65,7 @@ public class PlayerCamera : MonoBehaviour
             vignette.intensity.value = Mathf.Clamp01(intensity);
         }
 
-        // --- Axis-restricted follow with bounds (your original logic) ---
+        // --- Follow with axis restrictions ---
         if (cameraPosition == null) return;
 
         Vector3 pos = transform.position;
@@ -104,42 +82,33 @@ public class PlayerCamera : MonoBehaviour
             pos = new Vector3(x, pos.y, pos.z);
         }
 
-        // --- Screen shake update and application ---
-        if (shakeTimer < shakeDuration && shakeDuration > 0f && shakeAmplitude > 0f)
+        // --- Apply simple screen shake on X/Z ---
+        if (shakeTime > 0f)
         {
-            shakeTimer += Time.deltaTime;
-            float t = Mathf.Clamp01(shakeTimer / shakeDuration);
+            // decay (ease out)
+            float t = 1f - (shakeTime / Mathf.Max(0.0001f, shakeDuration));
+            float decay = 1f - t; // linear; change to (1-t)*(1-t) for faster falloff
 
-            // Ease out (strong at start, fades to zero)
-            float falloff = 1f - Mathf.SmoothStep(0f, 1f, t);
+            float time = Time.unscaledTime * shakeFrequency;
+            // centered perlin in [-1,1]
+            float nx = (Mathf.PerlinNoise(shakeSeed.x, time) - 0.5f) * 2f;
+            float nz = (Mathf.PerlinNoise(shakeSeed.y, time + 100f) - 0.5f) * 2f;
 
-            // Perlin-based offsets in [-0.5, 0.5], then scaled
-            float time = Time.time * shakeFrequency;
-            float nx = Mathf.PerlinNoise(shakeSeeds.x, time) - 0.5f;
-            float nz = Mathf.PerlinNoise(shakeSeeds.z, time + 17.123f) - 0.5f;
-            float ny = includeY ? (Mathf.PerlinNoise(shakeSeeds.y, time + 31.987f) - 0.5f) : 0f;
+            Vector3 shakeOffset = new Vector3(nx, 0f, nz) * (shakeMagnitude * decay);
+            pos += shakeOffset;
 
-            shakeOffset.x = nx * maxShakeXZ.x * shakeAmplitude * falloff * 2f;
-            shakeOffset.z = nz * maxShakeXZ.y * shakeAmplitude * falloff * 2f;
-            shakeOffset.y = includeY ? ny * maxShakeY * shakeAmplitude * falloff * 2f : 0f;
-        }
-        else
-        {
-            shakeOffset = Vector3.zero;
+            shakeTime -= Time.unscaledDeltaTime;
         }
 
-        // Apply the final position with shake
-        transform.position = pos + shakeOffset;
+        transform.position = pos;
     }
 
     private void OnDestroy()
     {
-        // Clean up only what we created (closest URP equivalent to RuntimeUtilities.DestroyVolume)
         if (createdRuntimeVolume && volume != null)
         {
             if (volume.profile != null)
             {
-                // Destroy created profile asset instance
                 Destroy(volume.profile);
                 volume.profile = null;
             }
@@ -149,27 +118,17 @@ public class PlayerCamera : MonoBehaviour
     }
 
     /// <summary>
-    /// Triggers a one-shot screen shake.
-    /// amplitude: 0..1 typical (can exceed 1 if you want stronger)
-    /// duration: seconds the shake lasts
-    /// frequency: how "buzzy" the shake feels (default ~18 Hz)
+    /// Triggers a simple camera screen shake.
     /// </summary>
-    public void Shake(float amplitude, float duration, float frequency = 18f)
+    /// <param name="duration">How long the shake lasts (seconds).</param>
+    /// <param name="magnitude">How strong the shake is (world units).</param>
+    /// <param name="frequency">How fast it wiggles.</param>
+    public void Shake(float duration = 0.2f, float magnitude = 0.15f, float frequency = 25f)
     {
-        shakeAmplitude = Mathf.Max(0f, amplitude);
-        shakeDuration = Mathf.Max(0f, duration);
-        shakeFrequency = Mathf.Max(0.01f, frequency);
-        shakeTimer = 0f; // restart
-    }
-
-    /// <summary>
-    /// Convenience "trauma" style shake: passes amplitude proportional to impact.
-    /// e.g., ShakeTrauma(velocityDelta, 30f) where velocityDelta ~ 0..1
-    /// </summary>
-    public void ShakeTrauma(float trauma, float duration = 0.25f, float frequency = 18f)
-    {
-        // Square trauma for punchy feel (small hits are subtle, big hits are big)
-        Shake(Mathf.Clamp01(trauma) * Mathf.Clamp01(trauma), duration, frequency);
+        shakeDuration = Mathf.Max(0.001f, duration);
+        shakeTime = shakeDuration;
+        shakeMagnitude = Mathf.Max(0f, magnitude);
+        shakeFrequency = Mathf.Max(0f, frequency);
+        shakeSeed = new Vector2(Random.value * 1000f, Random.value * 1000f);
     }
 }
-    

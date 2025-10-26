@@ -120,6 +120,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BriefcaseProjectile
       objectReference: {fileID: 0}
+    - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
+      propertyPath: ModifierX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
+      propertyPath: ModifierZ
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7307011116651155705, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
