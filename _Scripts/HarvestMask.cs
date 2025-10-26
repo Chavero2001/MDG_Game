@@ -24,6 +24,7 @@ public class HarvestMask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         // Attach the masks to the face (terrible copy paste code lol)
         OfficeWorkerMask.transform.rotation = Quaternion.LookRotation(playerMovement.LookDir.normalized);
         OfficeWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
@@ -32,7 +33,7 @@ public class HarvestMask : MonoBehaviour
         blueCollarMaskCurrentEuler.x = -90f;
         BlueCollarWorkerMask.transform.eulerAngles = blueCollarMaskCurrentEuler; 
         BlueCollarWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
-
+        */
         if (ClosestEnemy != null)  {
             arrowSpriteRenderer.enabled = true;
             Vector3 directionToClosestEnemy = (ClosestEnemy.transform.position - Player.transform.position).normalized * 1.2f;
@@ -71,9 +72,10 @@ public class HarvestMask : MonoBehaviour
                 Destroy(ClosestEnemy);
                 ClosestEnemy = null;
 
+                OfficeWorkerMask.SetActive(true);
                 // Make the appropriate mask visible
-                MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
-                officeWorkerMask.enabled = true;
+                /*MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
+                officeWorkerMask.enabled = true;*/
             }
         }
     }

@@ -930,7 +930,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 455352180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bf0c6a0312ffc149963bf537bedb2ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f783bd20bcde0a4bbba22244451371f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &455352182
@@ -1983,7 +1983,7 @@ SortingGroup:
   m_GameObject: {fileID: 1596455467}
   m_Enabled: 1
   m_SortingLayerID: -1260929877
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &1647974328 stripped
