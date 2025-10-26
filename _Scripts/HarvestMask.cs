@@ -8,6 +8,7 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject Player;
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
+    [SerializeField] public GameObject BlueCollarWorkerMask;
 
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
@@ -23,9 +24,14 @@ public class HarvestMask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Attach the masks to the face
+        // Attach the masks to the face (terrible copy paste code lol)
         OfficeWorkerMask.transform.rotation = Quaternion.LookRotation(playerMovement.LookDir.normalized);
         OfficeWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
+        BlueCollarWorkerMask.transform.rotation = Quaternion.LookRotation(playerMovement.LookDir.normalized);
+        Vector3 blueCollarMaskCurrentEuler = BlueCollarWorkerMask.transform.eulerAngles;
+        blueCollarMaskCurrentEuler.x = -90f;
+        BlueCollarWorkerMask.transform.eulerAngles = blueCollarMaskCurrentEuler; 
+        BlueCollarWorkerMask.transform.position = MaskAttachement.transform.position + playerMovement.LookDir.normalized * 0.2f - new Vector3(0.0f, 0.3f, 0.0f);
 
         if (ClosestEnemy != null)  {
             arrowSpriteRenderer.enabled = true;
