@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
         // Destroy projectile if it hits its intended target
         if (collider.CompareTag(Tag))
         {
-            
+            PlayerMovement.lifePoints -= Tag == "Player" ? 1 : 0;
             Destroy(gameObject);
         }
     }
