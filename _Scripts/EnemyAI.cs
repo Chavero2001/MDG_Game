@@ -31,6 +31,8 @@ public class EnemyAI : MonoBehaviour
     private Vector3 TargetDirection;
     private bool HasTarget;
     private bool IsWaiting;
+    private Rigidbody rb;
+
 
     // --- NEW: Wander bounds (XZ plane) ---
     [Header("Wander Bounds (XZ)")]
@@ -42,6 +44,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         direction[0] = 0; // Up
         direction[1] = 1; // Right
@@ -87,7 +90,9 @@ public class EnemyAI : MonoBehaviour
                 );
             }
 
-            transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            //transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            rb.MovePosition(rb.position + moveDir * EnemySpeed * Time.fixedDeltaTime);
+
         }
         else
         {
