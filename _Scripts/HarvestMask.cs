@@ -9,6 +9,7 @@ public class HarvestMask : MonoBehaviour
     [SerializeField] public GameObject MaskAttachement;
     [SerializeField] public GameObject OfficeWorkerMask;
     [SerializeField] public GameObject BlueCollarWorkerMask;
+    [SerializeField] public GameObject GameDevMask;
     public AudioSource audioSource;
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
@@ -17,6 +18,7 @@ public class HarvestMask : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        HideAllMasks();
         arrowSpriteRenderer = Arrow.GetComponent<SpriteRenderer>();
         playerMovement = Player.GetComponent<PlayerMovement>();
     }
@@ -72,10 +74,15 @@ public class HarvestMask : MonoBehaviour
                 if (enemyAi.enemyType == EnemyAI.EnemyType.OfficeWorker) {
                     MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
                     officeWorkerMask.enabled = true;
-                } else {
+                } else if(enemyAi.enemyType == EnemyAI.EnemyType.BlueCollarWorker){
                     MeshRenderer blueCollarWorkerMask = BlueCollarWorkerMask.GetComponent<MeshRenderer>();
                     blueCollarWorkerMask.enabled = true;
+                }else
+                {
+                    MeshRenderer gameDevMask = GameDevMask.GetComponent<MeshRenderer>();
+                    gameDevMask.enabled = true;
                 }
+
 
                 // Destroy the Closest Enemy
                 EnemiesInRange.Remove(ClosestEnemy);
@@ -90,6 +97,8 @@ public class HarvestMask : MonoBehaviour
         MeshRenderer officeWorkerMask = OfficeWorkerMask.GetComponent<MeshRenderer>();
         officeWorkerMask.enabled = false;
         MeshRenderer blueCollarWorkerMask = BlueCollarWorkerMask.GetComponent<MeshRenderer>();
+        blueCollarWorkerMask.enabled = false;
+        MeshRenderer gameDevMask = GameDevMask.GetComponent<MeshRenderer>();
         blueCollarWorkerMask.enabled = false;
     }
 
