@@ -9759,7 +9759,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: EnemySpeed
-      value: 10
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: Projectiles
+      value: 
+      objectReference: {fileID: 8072762461648089688, guid: bf47d0351a2840e4e93caefdb05bde01, type: 3}
+    - target: {fileID: 3954535118423546136, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
+      propertyPath: TimeBetweenShots
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4721083550005760206, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: m_Constraints

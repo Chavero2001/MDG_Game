@@ -670,8 +670,8 @@ MonoBehaviour:
   enemyPrefab1: {fileID: 277778023580146605, guid: e85e0aa604d561841abbe7193c73df6b, type: 3}
   enemyPrefab2: {fileID: 7593417178403302026, guid: bae6221a1af5ffc4098032db87a34e66, type: 3}
   enemyPrefab3: {fileID: 356075147842171635, guid: 3355db6778b16fa4b9d3cbb8af6041a2, type: 3}
-  startingEnemiesWave: 10
-  timeBetweenSpawns: 0.5
+  startingEnemiesWave: 25
+  timeBetweenSpawns: 0.3
   spawnPoints:
   - {fileID: 895359462}
   - {fileID: 272584876}
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fa1cd61b254b847868d0724fbba3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 14
   orientation: {fileID: 937621905}
   playerCamera: {fileID: 1248703045}
   LookDir: {x: 0, y: 0, z: 0}
@@ -1433,7 +1433,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3197248792452416942, guid: 47eb525fad6419444a0b2ee38d320824, type: 3}
   spawnDistance: 1
   audioSource: {fileID: 50331700}
-  fireCooldown: 1
+  fireCooldown: 0.15
   CanFire: 1
 --- !u!82 &857798073
 AudioSource:
@@ -1970,7 +1970,7 @@ PrefabInstance:
       objectReference: {fileID: 231115611}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: BuildingAttempts
-      value: 2
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 982924884561966229, guid: 5af945ba2cef9f543acbc0fc388754cb, type: 3}
       propertyPath: GridJitterChance

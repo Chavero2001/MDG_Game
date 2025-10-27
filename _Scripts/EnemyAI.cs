@@ -220,7 +220,7 @@ public class EnemyAI : MonoBehaviour
             Projectile projectile = projectileInstance.GetComponent<Projectile>();
             projectile.Init("Player", gameObject);
 
-            NextShotTime = Time.time + TimeBetweenShots;
+            NextShotTime = Time.time + TimeBetweenShots*5;
         }
     }
 

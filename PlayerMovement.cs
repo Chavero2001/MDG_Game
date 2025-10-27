@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private float regenTimer=0;
     private float dashTimer = 0f;
     private float dashSpeed = 1f;
-    static public float lifePoints = 5f;
+    static public float lifePoints = 3f;
     private float previousLife = lifePoints;
     void Start()
     {
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         if (lifePoints < 5)
         {
             regenTimer += Time.deltaTime;
-            if (regenTimer > 2)
+            if (regenTimer > 5)
             {                
                 lifePoints += 1;
                 previousLife = lifePoints;
@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         {
             DeathScreen.IsDeath = true;
             GameManager.Instance.EndRun();
-            lifePoints = 5;
+            lifePoints = 3;
             SceneManager.LoadScene(2);
             
         }

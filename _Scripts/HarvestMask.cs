@@ -15,7 +15,7 @@ public class HarvestMask : MonoBehaviour
     private List<GameObject> EnemiesInRange = new();
     private SpriteRenderer arrowSpriteRenderer;
     private PlayerMovement playerMovement;
-
+    private float cooldown=0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +27,7 @@ public class HarvestMask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cooldown += Time.deltaTime;
         /*
         // Attach the masks to the face (terrible copy paste code lol)
         OfficeWorkerMask.transform.rotation = Quaternion.LookRotation(playerMovement.LookDir.normalized);
@@ -51,7 +52,9 @@ public class HarvestMask : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Fire2")) {
-            if (ClosestEnemy != null) {
+            if (ClosestEnemy != null && cooldown > 5) {
+                cooldown = 0;
+                PlayerMovement.lifePoints += 1;
                 cameraPosition.position = new Vector3(cameraPosition.position.x, 5, cameraPosition.position.z);
                 Invoke("returnCam", 1);
                 audioSource.Play();
