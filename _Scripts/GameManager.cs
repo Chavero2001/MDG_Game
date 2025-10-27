@@ -42,8 +42,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"ResetRun called on instance {GetInstanceID()}. Before: time={TimePlayed}, enemies={EnemiesDestroyed}, waves={WavesSurvived}");
         TimePlayed = 0f;
+        FacesObtained = 0;
         EnemiesDestroyed = 0;
-        WavesSurvived = 0;
+        WavesSurvived = 1;
         IsRunning = true;
         Debug.Log($"After: time={TimePlayed}, enemies={EnemiesDestroyed}, waves={WavesSurvived}");
     }

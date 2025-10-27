@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpawnWaves : MonoBehaviour
 {
+    public AudioSource noise;
     [Header("Enemy")]
     [SerializeField] private GameObject enemyPrefab1;   // Must have tag "Enemy"
     [SerializeField] private GameObject enemyPrefab2;
@@ -23,6 +24,7 @@ public class SpawnWaves : MonoBehaviour
     public float waveIncrement = 1f;
     private void Start()
     {
+        wave = 1;
         // Initial wave
         StartCoroutine(SpawnWave());
     }
@@ -61,7 +63,7 @@ public class SpawnWaves : MonoBehaviour
         }
 
         isSpawning = true;
-
+        noise.Play();
         for (int i = 0; i < startingEnemiesWave* Mathf.Pow(wave,1.3f) ; i++)
         {
             Transform p = spawnPoints[Random.Range(0, spawnPoints.Length)];
