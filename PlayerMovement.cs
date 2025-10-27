@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]    
     public float moveSpeed;
+    public float HealthPoints;
     public Transform orientation;
     public Camera playerCamera;
     public Vector3 LookDir;
@@ -18,10 +19,12 @@ public class PlayerMovement : MonoBehaviour
     private float regenTimer=0;
     private float dashTimer = 0f;
     private float dashSpeed = 1f;
-    static public float lifePoints = 3f;
+    static public float lifePoints;
     private float previousLife = lifePoints;
     void Start()
     {
+        lifePoints = HealthPoints;
+        previousLife = HealthPoints;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
@@ -35,10 +38,10 @@ public class PlayerMovement : MonoBehaviour
             audioSource.Play();
             previousLife = lifePoints;
         }
-        if (lifePoints < 5)
+        if (lifePoints < HealthPoints)
         {
             regenTimer += Time.deltaTime;
-            if (regenTimer > 5)
+            if (regenTimer > HealthPoints)
             {                
                 lifePoints += 1;
                 previousLife = lifePoints;
@@ -49,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         {
             DeathScreen.IsDeath = true;
             GameManager.Instance.EndRun();
-            lifePoints = 3;
             SceneManager.LoadScene(2);
             
         }

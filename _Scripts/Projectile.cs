@@ -1,13 +1,14 @@
 using UnityEngine;
-
+using System.Collections;
 public class Projectile : MonoBehaviour
 {
     private Vector3 Direction;
     private Vector3 TargetPosition;
     private Rigidbody Rb;
-
+    private Collider col;
     public float ProjectileSpeed = 10f;
     public int Damage = 1;
+    public Transform body;
 
     public string Tag; // passed from the parent(spawner)
     //THis modifiers are just in case the precistion of the bullet needs to be adjusted
@@ -19,6 +20,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
+        col = GetComponent<Collider>();
         Rb = GetComponent<Rigidbody>();
     }
 
@@ -36,7 +38,7 @@ public class Projectile : MonoBehaviour
         if (collider.collider.CompareTag(Tag))
         {
             PlayerMovement.lifePoints -= Tag == "Player"?1:0;
-            Destroy(gameObject);
+            StartCoroutine(SelfDestructSequence());
         }
        
     }
@@ -78,11 +80,32 @@ public class Projectile : MonoBehaviour
         }
 
         // Automatically destroy after 2 seconds
-        Invoke(nameof(SelfDestroy), 2f);
+        Invoke(nameof(BeginSelfDestruct), 4f);
     }
 
-    private void SelfDestroy()
+    private void BeginSelfDestruct()
     {
+        StartCoroutine(SelfDestructSequence());
+    }
+    private IEnumerator SelfDestructSequence()
+    {
+        // disable collider so it can’t hit anything else
+        if (col != null)
+            col.enabled = false;
+
+        float duration = 1f;
+        float elapsed = 0f;
+        Vector3 initialScale = body.localScale;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            transform.localScale = Vector3.Lerp(initialScale, Vector3.zero, t);
+            yield return null;
+        }
+
         Destroy(gameObject);
     }
+
 }

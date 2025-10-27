@@ -126,6 +126,10 @@ PrefabInstance:
       value: GameControllerProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 1089556167676081280}
+    - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
       propertyPath: Damage
       value: 1
       objectReference: {fileID: 0}

@@ -11,6 +11,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] public GameObject Projectiles;
     [SerializeField] private float RotationSpeed = 30f;
     [SerializeField] private bool lockY = true;
+    [SerializeField] private float minEnemySeparation = 5f;
+    [SerializeField] private float separationPush = 1.0f;
     private float groundY;
 
     public enum EnemyType {
@@ -72,6 +74,7 @@ public class EnemyAI : MonoBehaviour
             // Optional: hard clamp each frame (physics or other forces can push you out)
             transform.position = ClampToBounds(transform.position);
         }
+        EnforceEnemySeparation();
     }
 
     private void chase()
@@ -91,7 +94,7 @@ public class EnemyAI : MonoBehaviour
                 );
             }
 
-            transform.position += moveDir * EnemySpeed * Time.deltaTime;
+            transform.position += moveDir * EnemySpeed/2f * Time.deltaTime;
             //rb.MovePosition(rb.position + moveDir * EnemySpeed * Time.fixedDeltaTime);
 
         }
@@ -110,6 +113,37 @@ public class EnemyAI : MonoBehaviour
                     Mathf.Clamp01(RotationSpeed * Time.deltaTime)
                 );
             }
+        }
+    }
+    private void EnforceEnemySeparation()
+    {
+        // Get nearby things; if you have an "Enemy" layer, use LayerMask to filter.
+        Collider[] hits = Physics.OverlapSphere(transform.position, minEnemySeparation);
+        Vector3 push = Vector3.zero;
+
+        foreach (var c in hits)
+        {
+            if (c.attachedRigidbody && c.attachedRigidbody.gameObject == gameObject) continue;
+            var other = c.transform;
+
+            // Only consider other enemies
+            if (!other.CompareTag("Enemy") || other == transform) continue;
+
+            Vector3 away = (transform.position - other.position);
+            away.y = 0f; // stay on XZ plane
+            float d = away.magnitude;
+            if (d > 0.0001f && d < minEnemySeparation)
+            {
+                // Push proportional to how much we're inside the "bubble"
+                float penetration = (minEnemySeparation - d);
+                push += away.normalized * penetration;
+            }
+        }
+
+        if (push.sqrMagnitude > 0f)
+        {
+            // Scale the correction a bit to avoid jitter; then re-clamp to bounds
+            transform.position = ClampToBounds(transform.position + push.normalized * separationPush * Time.deltaTime);
         }
     }
 

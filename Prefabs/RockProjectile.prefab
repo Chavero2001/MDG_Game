@@ -121,6 +121,10 @@ PrefabInstance:
       value: RockProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 1447446782147384937}
+    - target: {fileID: 3407637752172261699, guid: 12b7785d39c7a7b4980b85eb2a772e0e, type: 3}
       propertyPath: ModifierX
       value: 0
       objectReference: {fileID: 0}

@@ -13,19 +13,11 @@ public class HealthComponent : MonoBehaviour
             Debug.Log("is projectile");
             if (projectile.Parent.tag != gameObject.tag) {
                 Instantiate(hitParticles, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
-                hit.Play();
+                //hit.Play();
                 health -= projectile.Damage;
                 if (health <= 0) {
-                    if (gameObject.tag == "Player")
-                    {
-                        
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
                         GameManager.Instance.AddEnemyDestroyed();
                         Destroy(gameObject);
-                    }
                 }
                 Destroy(collision.gameObject);
             }
