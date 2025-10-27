@@ -61,8 +61,8 @@ public class PlayerCamera : MonoBehaviour
         {
             float intensity = baseIntensity;
             if (useLifePoints)
-                intensity -= Mathf.Max(0f, PlayerMovement.lifePoints) / Mathf.Max(0.0001f, lifeScale);
-            vignette.intensity.value = Mathf.Clamp01(intensity);
+                intensity -= PlayerMovement.lifePoints/5;
+            vignette.intensity.value = intensity;
         }
 
         // --- Follow with axis restrictions ---

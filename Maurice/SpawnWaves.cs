@@ -62,7 +62,7 @@ public class SpawnWaves : MonoBehaviour
 
         isSpawning = true;
 
-        for (int i = 0; i < startingEnemiesWave*wave; i++)
+        for (int i = 0; i < startingEnemiesWave* Mathf.Pow(wave,1.3f) ; i++)
         {
             Transform p = spawnPoints[Random.Range(0, spawnPoints.Length)];
             if (p != null)

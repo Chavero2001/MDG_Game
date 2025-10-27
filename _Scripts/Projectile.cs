@@ -8,7 +8,6 @@ public class Projectile : MonoBehaviour
     private Collider col;
     public float ProjectileSpeed = 10f;
     public int Damage = 1;
-    public Transform body;
 
     public string Tag; // passed from the parent(spawner)
     //THis modifiers are just in case the precistion of the bullet needs to be adjusted
@@ -93,9 +92,9 @@ public class Projectile : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        float duration = 1f;
+        float duration = 0.3f;
         float elapsed = 0f;
-        Vector3 initialScale = body.localScale;
+        Vector3 initialScale = transform.localScale;
 
         while (elapsed < duration)
         {

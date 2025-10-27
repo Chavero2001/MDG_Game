@@ -9804,7 +9804,7 @@ PrefabInstance:
       objectReference: {fileID: 5531546223720161925}
     - target: {fileID: 6446433013480855853, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: health
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6446433013480855853, guid: e682f4a7f3b23a04fbf0d08e631a7b39, type: 3}
       propertyPath: hitParticles

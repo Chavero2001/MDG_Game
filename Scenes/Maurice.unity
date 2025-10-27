@@ -231,9 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 127911271}
   volume: {fileID: 533069419}
-  baseIntensity: 0.6
+  baseIntensity: 1
   useLifePoints: 1
-  lifeScale: 20
+  lifeScale: 30
 --- !u!82 &50331700
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1389,7 +1389,7 @@ MonoBehaviour:
   playerCamera: {fileID: 1248703045}
   LookDir: {x: 0, y: 0, z: 0}
   smoke: {fileID: 1478154934}
-  hit: {fileID: 578171323811682204, guid: f40ffe3854b024a45b4628266c62a516, type: 3}
+  hit: {fileID: 578171323811682204, guid: bc6a65664b7023d4ea6061253cf7e03a, type: 3}
   audioSource: {fileID: 857798073}
   playerCamera1: {fileID: 50331699}
 --- !u!54 &857798070
